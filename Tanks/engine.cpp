@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "SFML/System/Time.hpp"
 #include "window-game.h"
+#include "menu-window.h"
 
 #include <stdio.h>
 
@@ -60,8 +61,10 @@ void Engine::Draw()
 
 void Engine::Execute()
 {
-	Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
-	m_Windows.push_back(gameWindow);
+	// Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
+	// m_Windows.push_back(gameWindow);
+	Container<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
+	m_Windows.push_back(menuWindow);
 
 	sf::Clock clock;
 	sf::Time lastTime = clock.getElapsedTime();

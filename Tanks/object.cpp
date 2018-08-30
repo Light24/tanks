@@ -3,13 +3,21 @@
 
 Object::Object(const char *in_TexturePath) : m_Pos(sf::Vector2f(0, 0)), m_Size(sf::Vector2f(0, 0)), m_Parent(NULL)
 {
-	m_Texture.loadFromFile(in_TexturePath);
+	SetTexture(in_TexturePath);
+}
+
+bool Object::SetTexture(const char *in_TexturePath)
+{
+	m_Texture.loadFromFile(in_TexturePath ? in_TexturePath : "");
 	m_Sprite.setTexture(m_Texture);
+
+	calculateSpriteSize();
+	return true;
 }
 
 Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(in_Pos), m_Size(in_Size), m_Parent(NULL)
 {
-
+	SetTexture(NULL);
 }
 
 Object::Object(const Object *in_Object)
@@ -60,9 +68,13 @@ void Object::SetSize(const sf::Vector2f &in_Size)
 	calculateSpriteSize();
 }
 
-bool Object::CheckIntersect(const sf::Vector2f &in_Pos)
+bool Object::CheckIntersect(const sf::Vector2f &in_Pos) const
 {
-	return false;
+	const sf::Vector2f pos = GetAbsolutePos();
+	const sf::Vector2f size = GetSize();
+
+	return ((in_Pos.x >= pos.x && in_Pos.x <= pos.x + size.x)
+		&& (in_Pos.y >= pos.y && in_Pos.y <= pos.y + size.y));
 }
 
 void Object::Draw(sf::RenderWindow *in_RenderWindow)
@@ -86,7 +98,9 @@ sf::Vector2f Object::GetAbsolutePos() const
 
 void Object::calculateSpriteSize()
 {
-	m_Sprite.setScale(GetSize().x / m_Sprite.getTextureRect().width, GetSize().y / m_Sprite.getTextureRect().height);
+	// const sf::Vector2i size = sf::Vector2i(GetSize().x / m_Sprite.getTexture()->getSize().x, GetSize().y / m_Sprite.getTexture()->getSize().y);
+	const sf::Vector2i size = sf::Vector2i(m_Sprite.getTexture()->getSize().x, m_Sprite.getTexture()->getSize().y);
+	m_Sprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), size));
 }
 
 void Object::CalculateSpritePos()

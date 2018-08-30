@@ -40,6 +40,24 @@
     <Filter Include="GameObjects\Source Files">
       <UniqueIdentifier>{13b6e302-83c2-4e8f-bca4-b1403964b76f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorWindow">
+      <UniqueIdentifier>{c2682b8f-3a5d-457f-92f7-cbeb8399b159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MenuWindow">
+      <UniqueIdentifier>{67eb22c3-ed20-4b1f-9334-6a0aa60cd9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorWindow\Header Files">
+      <UniqueIdentifier>{00e4dae2-a267-4942-ac56-21d33fe7067c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EditorWindow\Source Files">
+      <UniqueIdentifier>{b2f466a4-f831-413d-aad5-d476d11b9664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MenuWindow\Header Files">
+      <UniqueIdentifier>{9c6c1f49-fbeb-4f56-9f07-3e957813a83d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MenuWindow\Source Files">
+      <UniqueIdentifier>{8d2cb1c7-9bd9-494a-b4a7-2ef4368c9a15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
@@ -90,6 +108,18 @@
     <ClCompile Include="game-object.cpp">
       <Filter>GameObjects\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu-window.cpp">
+      <Filter>MenuWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget-templates.cpp">
+      <Filter>EditorWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window-editor.cpp">
+      <Filter>EditorWindow\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -133,6 +163,18 @@
     </ClInclude>
     <ClInclude Include="wall.h">
       <Filter>GameObjects\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menu-window.h">
+      <Filter>MenuWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-templates.h">
+      <Filter>EditorWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window-editor.h">
+      <Filter>EditorWindow\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

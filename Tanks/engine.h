@@ -26,7 +26,7 @@ private:
 	sf::Vector2f m_Size;
 
 	sf::RenderWindow *m_Window;
-	std::vector<Window<Widget> *> m_Windows;
+	std::vector<Container<Widget> *> m_Windows;
 	ConfigManager m_ConfigManager;
 };
 

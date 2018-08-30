@@ -17,5 +17,6 @@ void Widget::Draw(sf::RenderWindow *in_RenderWindow)
 
 	sf::View view;// (in_RenderWindow->getDefaultView());
 	view.setViewport(sf::FloatRect(GetPos().x / screenSize.x, GetPos().y / screenSize.y, GetSize().x / screenSize.x, GetSize().y / screenSize.y));
+	Object::Draw(in_RenderWindow);
 	// in_RenderWindow->setView(view);
 }

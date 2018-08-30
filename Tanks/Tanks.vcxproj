@@ -120,12 +120,14 @@
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="container.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="container-moving.cpp" />
     <ClCompile Include="game-object.cpp" />
+    <ClCompile Include="menu-window.cpp" />
     <ClCompile Include="missile.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="player.cpp" />
@@ -133,24 +135,30 @@
     <ClCompile Include="wall.cpp" />
     <ClCompile Include="widget-game.cpp" />
     <ClCompile Include="widget.cpp" />
+    <ClCompile Include="widget-templates.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="window-game.cpp" />
+    <ClCompile Include="window-editor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="button.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="container.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="container-moving.h" />
     <ClInclude Include="game-object.h" />
+    <ClInclude Include="menu-window.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="tank.h" />
     <ClInclude Include="wall.h" />
     <ClInclude Include="widget-game.h" />
+    <ClInclude Include="widget-templates.h" />
     <ClInclude Include="widget.h" />
     <ClInclude Include="window-game.h" />
     <ClInclude Include="window.h" />
+    <ClInclude Include="window-editor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

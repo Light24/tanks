@@ -19,9 +19,11 @@ public:
 	sf::Vector2f GetSize() const;
 	void SetSize(const sf::Vector2f &in_Size);
 
+	bool SetTexture(const char *in_TexturePath);
+
 	sf::Vector2f GetAbsolutePos() const;
 
-	bool CheckIntersect(const sf::Vector2f &in_Pos);
+	bool CheckIntersect(const sf::Vector2f &in_Pos) const;
 
 public:
 	virtual void Draw(sf::RenderWindow *in_RenderWindow);
