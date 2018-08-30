@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{dbff447f-d75e-41cb-b698-b2e10517dbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Header Files">
+      <UniqueIdentifier>{720ac71f-8d6c-4629-a092-b4e06d33baab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Source Files">
+      <UniqueIdentifier>{2c6e1e70-3b92-4387-b644-a3fcca1eafed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameWindow">
+      <UniqueIdentifier>{1007d8f9-7174-4643-a4e3-4d67f7668bb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameWindow\Header Files">
+      <UniqueIdentifier>{8c9861f5-8a54-4446-b819-b0b20b158f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameWindow\Source Files">
+      <UniqueIdentifier>{1e600897-5523-405f-896c-b6fb29fee79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{cc45567a-e9d4-44e6-9898-13b9141c2a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Header Files">
+      <UniqueIdentifier>{9de0dc2c-4411-4cca-bfac-066e8741bdf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Source Files">
+      <UniqueIdentifier>{13b6e302-83c2-4e8f-bca4-b1403964b76f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="container.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="container-moving.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="window-game.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget-game.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tank.cpp">
+      <Filter>GameObjects\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>GameObjects\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="missile.cpp">
+      <Filter>GameObjects\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game-object.cpp">
+      <Filter>GameObjects\Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="container.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="container-moving.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window-game.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-game.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game-object.h">
+      <Filter>GameObjects\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="missile.h">
+      <Filter>GameObjects\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tank.h">
+      <Filter>GameObjects\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wall.h">
+      <Filter>GameObjects\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
