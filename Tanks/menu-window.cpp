@@ -1,4 +1,6 @@
 #include "menu-window.h"
+#include "window-game.h"
+
 #include <functional>
 
 #define PREPARE_CALLBACK(in_Pointer, in_Method) [in_Pointer] (Button *in_Object) -> void { (in_Pointer->*in_Method)(in_Object); }
@@ -34,7 +36,8 @@ MenuWindow::~MenuWindow()
 
 void MenuWindow::onStartClicked(Button *in_Button)
 {
-	// m_Engine->
+	Window *window = new WindowGame(m_Engine, sf::Vector2f(), m_Engine->GetSize());
+	m_Engine->ChangeWindow(window);
 }
 
 void MenuWindow::onEditorClicked(Button *in_Button)
@@ -44,5 +47,5 @@ void MenuWindow::onEditorClicked(Button *in_Button)
 
 void MenuWindow::onExitClicked(Button *in_Button)
 {
-	// m_Engine->
+	m_Engine->Close();
 }

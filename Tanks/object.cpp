@@ -98,9 +98,8 @@ sf::Vector2f Object::GetAbsolutePos() const
 
 void Object::calculateSpriteSize()
 {
-	// const sf::Vector2i size = sf::Vector2i(GetSize().x / m_Sprite.getTexture()->getSize().x, GetSize().y / m_Sprite.getTexture()->getSize().y);
-	const sf::Vector2i size = sf::Vector2i(m_Sprite.getTexture()->getSize().x, m_Sprite.getTexture()->getSize().y);
-	m_Sprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), size));
+	m_Sprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(m_Sprite.getTexture()->getSize().x, m_Sprite.getTexture()->getSize().y)));
+	m_Sprite.setScale(sf::Vector2f(GetSize().x / m_Sprite.getTexture()->getSize().x, GetSize().y / m_Sprite.getTexture()->getSize().y)); // sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(GetSize().x, GetSize().y)));
 }
 
 void Object::CalculateSpritePos()

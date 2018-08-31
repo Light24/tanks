@@ -22,11 +22,19 @@ public:
 
 	ConfigManager *GetConfigManager();
 
+	void ChangeWindow(Window<Widget> *in_Window);
+
+	void Close();
+
+private:
+	void destroyObjectsDeffered();
+
 private:
 	sf::Vector2f m_Size;
 
 	sf::RenderWindow *m_Window;
 	std::vector<Container<Widget> *> m_Windows;
+	std::vector<Object *> m_DestroyableObjects;
 	ConfigManager m_ConfigManager;
 };
 

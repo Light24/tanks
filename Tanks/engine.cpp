@@ -61,10 +61,13 @@ void Engine::Draw()
 
 void Engine::Execute()
 {
-	// Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
-	// m_Windows.push_back(gameWindow);
-	Container<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
-	m_Windows.push_back(menuWindow);
+	/*Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
+	gameWindow->SetTexture("C:/C++/Tanks/x64/Debug/background.png");
+	ChangeWindow(gameWindow);*/
+
+	Window<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
+	menuWindow->SetTexture("C:/C++/Tanks/x64/Debug/background.png");
+	ChangeWindow(menuWindow);
 
 	sf::Clock clock;
 	sf::Time lastTime = clock.getElapsedTime();
@@ -77,6 +80,7 @@ void Engine::Execute()
 		Update(time - lastTime);
 		Draw();
 
+		destroyObjectsDeffered();
 		lastTime = time;
 	} while (m_Window->isOpen());
 }
@@ -94,4 +98,28 @@ void Engine::SetSize(const sf::Vector2f &in_Size)
 ConfigManager *Engine::GetConfigManager()
 {
 	return &m_ConfigManager;
+}
+
+void Engine::Close()
+{
+	m_Window->close();
+}
+
+void Engine::ChangeWindow(Window<Widget> *in_Window)
+{
+	for (size_t i = 0; i != m_Windows.size(); ++i)
+		m_DestroyableObjects.push_back(m_Windows[i]);
+	m_Windows.clear();
+
+	m_Windows.push_back(in_Window);
+}
+
+void Engine::destroyObjectsDeffered()
+{
+	if (!m_DestroyableObjects.size())
+		return;
+
+	for (size_t i = 0; i != m_DestroyableObjects.size(); ++i)
+		delete m_DestroyableObjects[i];
+	m_DestroyableObjects.clear();
 }
