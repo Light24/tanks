@@ -22,12 +22,14 @@ Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(
 
 Object::Object(const Object *in_Object)
 {
+	m_Parent = NULL;
 	m_Texture = in_Object->m_Texture;
 	m_Sprite = in_Object->m_Sprite;
 
-	SetParent(const_cast<Object *>(in_Object)->GetParent());
 	SetPos(in_Object->GetPos());
 	SetSize(in_Object->GetSize());
+
+	SetParent(const_cast<Object *>(in_Object)->GetParent());
 }
 
 Object::~Object()
@@ -42,8 +44,20 @@ Object *Object::GetParent() const
 
 void Object::SetParent(Object *in_Parent)
 {
+	if (m_Parent == in_Parent)
+		return;
+
+	sf::Vector2f pos = GetPos();
+	if (m_Parent)
+	{
+		if (pos.x < 0)
+			pos.x += GetParent()->GetPos().x;
+		if (pos.y < 0)
+			pos.y += GetParent()->GetPos().y;
+	}
+
 	m_Parent = in_Parent;
-	CalculateSpritePos();
+	SetPos(pos);
 }
 
 sf::Vector2f Object::GetPos() const

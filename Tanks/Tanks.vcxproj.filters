@@ -120,6 +120,12 @@
     <ClCompile Include="window-editor.cpp">
       <Filter>EditorWindow\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="widget-game-editor.cpp">
+      <Filter>EditorWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget-illuminated-object.cpp">
+      <Filter>EditorWindow\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -174,6 +180,12 @@
       <Filter>EditorWindow\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window-editor.h">
+      <Filter>EditorWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-game-editor.h">
+      <Filter>EditorWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-illuminated-object.h">
       <Filter>EditorWindow\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

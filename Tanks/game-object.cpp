@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 
-GameObject::GameObject(const char *in_Buf) : Object("C:/C++/Tanks/x64/Debug/image.png"), m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE)
+GameObject::GameObject(const char *in_Buf) : Object("C:/C++/Tanks/x64/Debug/image.png"), m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
 {
 	id.Generate();
 
@@ -188,8 +188,3 @@ bool GameObject::CheckIntersectY(const GameObject *in_Object, const sf::Time in_
 	return false;
 }
 
-
-bool GameObject::CheckIntersect(const GameObject *in_Object, const sf::Time in_Timeout) const
-{
-	return CheckIntersectX(in_Object, in_Timeout) || CheckIntersectY(in_Object, in_Timeout);
-}

@@ -136,6 +136,8 @@
     <ClCompile Include="widget-game.cpp" />
     <ClCompile Include="widget.cpp" />
     <ClCompile Include="widget-templates.cpp" />
+    <ClCompile Include="widget-game-editor.cpp" />
+    <ClCompile Include="widget-illuminated-object.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="window-game.cpp" />
     <ClCompile Include="window-editor.cpp" />
@@ -153,9 +155,11 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="tank.h" />
     <ClInclude Include="wall.h" />
+    <ClInclude Include="widget-game-editor.h" />
     <ClInclude Include="widget-game.h" />
     <ClInclude Include="widget-templates.h" />
     <ClInclude Include="widget.h" />
+    <ClInclude Include="widget-illuminated-object.h" />
     <ClInclude Include="window-game.h" />
     <ClInclude Include="window.h" />
     <ClInclude Include="window-editor.h" />

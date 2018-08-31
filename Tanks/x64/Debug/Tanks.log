@@ -1,3 +1,2 @@
-﻿  object.cpp
-c:\c++\tanks\tanks\object.cpp(102): warning C4930: 'const sf::Vector2f size(void)': prototyped function not called (was a variable definition intended?)
+﻿  widget-illuminated-object.cpp
   Tanks.vcxproj -> C:\C++\Tanks\x64\Debug\Tanks.exe

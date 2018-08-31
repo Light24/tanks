@@ -1,5 +1,6 @@
 #include "menu-window.h"
 #include "window-game.h"
+#include "window-editor.h"
 
 #include <functional>
 
@@ -16,7 +17,7 @@ MenuWindow::MenuWindow(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::
 
 	button = new Button(sf::Vector2f(GetSize().x / 2 - BUTTON_SIZE.x / 2, GetSize().y / 2 - (BUTTON_SIZE.y + BUTTON_OFFSET_Y)), BUTTON_SIZE);
 	button->SetText(L"Играть");
-	button->SetOnClickedListener(PREPARE_CALLBACK(this, &MenuWindow::onStartClicked));//  Prepare_Callback(this, MenuWindow::onStartClicked));
+	button->SetOnClickedListener(PREPARE_CALLBACK(this, &MenuWindow::onStartClicked));
 	AddWidget(button);
 
 	button = new Button(sf::Vector2f(GetSize().x / 2 - BUTTON_SIZE.x / 2, GetSize().y / 2), BUTTON_SIZE);
@@ -42,7 +43,8 @@ void MenuWindow::onStartClicked(Button *in_Button)
 
 void MenuWindow::onEditorClicked(Button *in_Button)
 {
-	// m_Engine->
+	Window *window = new WindowEditor(m_Engine, sf::Vector2f(), m_Engine->GetSize());
+	m_Engine->ChangeWindow(window);
 }
 
 void MenuWindow::onExitClicked(Button *in_Button)

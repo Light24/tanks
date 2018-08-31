@@ -71,7 +71,6 @@ public:
 
 	int GetHealth() const;
 
-	bool CheckIntersect(const GameObject *in_Object, const sf::Time in_Timeout) const;
 	virtual void OnIntersect(GameObject *in_GameObject) = 0;
 
 	bool CheckIntersectX(const GameObject *in_Object, const sf::Time in_Timeout) const;

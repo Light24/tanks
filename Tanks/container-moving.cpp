@@ -5,10 +5,6 @@ template <typename ObjectType>
 ContainerMoving<ObjectType>::ContainerMoving(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Container(in_Pos, in_Size)
 {
 	m_MovableWidget = NULL;
-
-	m_MoveBeginListener = NULL;
-	m_MovingListener = NULL;
-	m_MoveEndListener = NULL;
 }
 
 template <typename ObjectType>
@@ -17,21 +13,21 @@ ContainerMoving<ObjectType>::~ContainerMoving()
 }
 
 template <typename ObjectType>
-void ContainerMoving<ObjectType>::SetMoveBeginListener(MoveBeginListener in_MoveListener)
+void ContainerMoving<ObjectType>::AddMoveBeginListener(MoveBeginListener in_MoveListener)
 {
-	m_MoveBeginListener = in_MoveListener;
+	m_MoveBeginListeners.push_back(in_MoveListener);
 }
 
 template <typename ObjectType>
-void ContainerMoving<ObjectType>::SetMovingListener(MoveListener in_MoveListener)
+void ContainerMoving<ObjectType>::AddMovingListener(MoveListener in_MoveListener)
 {
-	m_MovingListener = in_MoveListener;
+	m_MovingListeners.push_back(in_MoveListener);
 }
 
 template <typename ObjectType>
-void ContainerMoving<ObjectType>::SetMoveEndListener(MoveListener in_MoveListener)
+void ContainerMoving<ObjectType>::AddMoveEndListener(MoveListener in_MoveListener)
 {
-	m_MoveEndListener = in_MoveListener;
+	m_MoveEndListeners.push_back(in_MoveListener);
 }
 
 template <typename ObjectType>
@@ -54,18 +50,13 @@ void ContainerMoving<ObjectType>::HandleEvent(const sf::Event &in_Event)
 			if (!selectedObject)
 				break;
 
-			const sf::Vector2f &posAbsolute = selectedObject->GetAbsolutePos();
+			for (auto it = m_MoveBeginListeners.begin(); it != m_MoveBeginListeners.end(); ++it)
+				selectedObject = (*it)(selectedObject, in_Event);
+			m_MovableWidget = selectedObject;
+			if (!selectedObject)
+				break;
 
-			m_MovableWidget = NULL;
-			if (m_MoveBeginListener)
-			{
-				m_MovableWidget = m_MoveBeginListener(selectedObject);
-				m_MovableWidget = m_MovableWidget ? m_MovableWidget : selectedObject;
-			}
-			else
-			{
-				m_MovableWidget = selectedObject;
-			}
+			const sf::Vector2f &posAbsolute = selectedObject->GetAbsolutePos();
 			m_MovableWidgetOffset = sf::Vector2f(in_Event.mouseButton.x - posAbsolute.x, in_Event.mouseButton.y - posAbsolute.y);
 
 			break;
@@ -74,8 +65,8 @@ void ContainerMoving<ObjectType>::HandleEvent(const sf::Event &in_Event)
 		{
 			if (!m_MovableWidget)
 				break;
-			if (m_MovingListener)
-				m_MovingListener(m_MovableWidget);
+			for (auto it = m_MovingListeners.begin(); it != m_MovingListeners.end(); ++it)
+				(*it)(m_MovableWidget, in_Event);
 
 			const sf::Vector2f &posAbsolute = m_MovableWidget->GetAbsolutePos();
 			const sf::Vector2f &posRelative = m_MovableWidget->GetPos();
@@ -89,8 +80,8 @@ void ContainerMoving<ObjectType>::HandleEvent(const sf::Event &in_Event)
 			if (!m_MovableWidget)
 				break;
 
-			if (m_MoveEndListener)
-				m_MoveEndListener(m_MovableWidget);
+			for (auto it = m_MoveEndListeners.begin(); it != m_MoveEndListeners.end(); ++it)
+				(*it)(m_MovableWidget, in_Event);
 
 			m_MovableWidget = NULL;
 

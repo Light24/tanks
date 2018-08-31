@@ -40,7 +40,7 @@ void Container<ObjectType>::AddWidget(ObjectType *in_Widget)
 }
 
 template <typename ObjectType>
-bool Container<ObjectType>::RemoveWidget(ObjectType *in_Widget)
+bool Container<ObjectType>::RemoveWidget(ObjectType *in_Widget, bool in_Deleting)
 {
 	size_t widgetNum = -1;
 	for (size_t i = 0; i != m_WidgetsCount; ++i)
@@ -55,7 +55,11 @@ bool Container<ObjectType>::RemoveWidget(ObjectType *in_Widget)
 	if (widgetNum == -1)
 		return false;
 
-	delete m_Widgets[widgetNum];
+	if (in_Deleting)
+		delete m_Widgets[widgetNum];
+	else
+		if (m_Widgets[widgetNum]->GetParent() == this)
+			m_Widgets[widgetNum]->SetParent(NULL);
 	m_Widgets[widgetNum] = m_Widgets[--m_WidgetsCount];
 
 	return true;

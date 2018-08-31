@@ -14,7 +14,7 @@ public:
 	virtual void SetPos(const sf::Vector2f &in_Pos) override;
 
 	void AddWidget(ObjectType *in_Widget);
-	bool RemoveWidget(ObjectType *in_Widget);
+	bool RemoveWidget(ObjectType *in_Widget, bool in_Deleting = true);
 	ObjectType *GetWidget(const size_t in_Num) const;
 	size_t GetWidgetsCount() const;
 
@@ -27,5 +27,6 @@ private:
 	size_t m_WidgetsCount;
 	ObjectType **m_Widgets;
 };
+template class Container<Object>;
 template class Container<Widget>;
 template class Container<GameObject>;
