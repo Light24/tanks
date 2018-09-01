@@ -21,9 +21,10 @@ void WidgetIlluminatedObject::SetOwnedObject(Object *in_Object)
 
 	m_OwnedObject = in_Object;
 	SetParent(in_Object->GetParent());
-	m_OwnedObject->SetPos(sf::Vector2f(0, 0));
 	SetPos(pos);
+	SetSize(m_OwnedObject->GetSize());
 
+	m_OwnedObject->SetPos(sf::Vector2f(0, 0));
 	in_Object->SetParent(this);
 }
 
@@ -35,8 +36,8 @@ void WidgetIlluminatedObject::SetPos(const sf::Vector2f &in_Pos)
 
 void WidgetIlluminatedObject::Draw(sf::RenderWindow *in_RenderWindow)
 {
-	Widget::Draw(in_RenderWindow);
 	m_OwnedObject->Draw(in_RenderWindow);
+	Widget::Draw(in_RenderWindow);
 }
 
 void WidgetIlluminatedObject::Update(const sf::Time &in_Time)

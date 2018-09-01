@@ -65,13 +65,14 @@ void ContainerMoving<ObjectType>::HandleEvent(const sf::Event &in_Event)
 		{
 			if (!m_MovableWidget)
 				break;
-			for (auto it = m_MovingListeners.begin(); it != m_MovingListeners.end(); ++it)
-				(*it)(m_MovableWidget, in_Event);
 
 			const sf::Vector2f &posAbsolute = m_MovableWidget->GetAbsolutePos();
 			const sf::Vector2f &posRelative = m_MovableWidget->GetPos();
 			const sf::Vector2f &size = m_MovableWidget->GetSize();
 			m_MovableWidget->SetPos(sf::Vector2f(in_Event.mouseMove.x - (posAbsolute.x - posRelative.x) - m_MovableWidgetOffset.x, in_Event.mouseMove.y - (posAbsolute.y - posRelative.y) - m_MovableWidgetOffset.y));
+
+			for (auto it = m_MovingListeners.begin(); it != m_MovingListeners.end(); ++it)
+				(*it)(m_MovableWidget, in_Event);
 
 			break;
 		}

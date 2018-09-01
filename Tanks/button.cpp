@@ -4,8 +4,8 @@
 sf::Font font;
 Button::Button(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Widget(in_Pos, in_Size), m_ClickedListener(NULL)
 {
-	SetTexture("C:/C++/Tanks/x64/Debug/button.png");
-	auto t = font.loadFromFile("C:/C++/Tanks/x64/Debug/capture-it.ttf");
+	SetTexture("button.png");
+	font.loadFromFile("C:/C++/Tanks/x64/Debug/capture-it.ttf");
 	m_Text.setFont(font);
 	m_Text.setCharacterSize(20);
 	m_Text.setColor(sf::Color::White);

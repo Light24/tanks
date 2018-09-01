@@ -25,3 +25,10 @@
 .vs
 *.sdf
 *.suo
+
+# Files into Build folder
+*.tlog
+*.idb
+*.pdb
+*.ilk
+*.map

@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 
-GameObject::GameObject(const char *in_Buf) : Object("C:/C++/Tanks/x64/Debug/image.png"), m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
+GameObject::GameObject(const char *in_Buf) : Object("image.png"), m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
 {
 	id.Generate();
 

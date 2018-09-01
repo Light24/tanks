@@ -120,6 +120,8 @@
     <Text Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="texture-manager.cpp" />
+    <ClCompile Include="animation.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="container.cpp" />
@@ -143,6 +145,8 @@
     <ClCompile Include="window-editor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="texture-manager.h" />
+    <ClInclude Include="animation.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="container.h" />

@@ -19,11 +19,14 @@ public:
 	sf::Vector2f GetSize() const;
 	void SetSize(const sf::Vector2f &in_Size);
 
-	bool SetTexture(const char *in_TexturePath);
+	bool SetTexture(const char *in_TextureName);
 
 	sf::Vector2f GetAbsolutePos() const;
 
 	bool CheckIntersect(const sf::Vector2f &in_Pos) const;
+
+	bool CheckIntersectX(const Object *in_Object) const;
+	bool CheckIntersectY(const Object *in_Object) const;
 
 public:
 	virtual void Draw(sf::RenderWindow *in_RenderWindow);
@@ -40,6 +43,5 @@ private:
 	sf::Vector2f m_Pos;
 	sf::Vector2f m_Size;
 
-	sf::Texture m_Texture;
 	sf::Sprite m_Sprite;
 };

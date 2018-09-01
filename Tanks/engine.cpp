@@ -2,11 +2,14 @@
 #include "SFML/System/Time.hpp"
 #include "window-game.h"
 #include "menu-window.h"
+#include "texture-manager.h"
 
 #include <stdio.h>
 
 Engine::Engine(void) : m_Size(800, 400)
 {
+	TextureManager::GetInstance()->SetTextureDir("C:/C++/Tanks/x64/Debug/");
+
 	m_Window = new sf::RenderWindow(sf::VideoMode(GetSize().x, GetSize().y), "Tanks");
 
 	m_ConfigManager.Load("objects.txt");
@@ -62,11 +65,11 @@ void Engine::Draw()
 void Engine::Execute()
 {
 	/*Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
-	gameWindow->SetTexture("C:/C++/Tanks/x64/Debug/background.png");
+	gameWindow->SetTexture("background.png");
 	ChangeWindow(gameWindow);*/
 
 	Window<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
-	menuWindow->SetTexture("C:/C++/Tanks/x64/Debug/background.png");
+	menuWindow->SetTexture("background.png");
 	ChangeWindow(menuWindow);
 
 	sf::Clock clock;

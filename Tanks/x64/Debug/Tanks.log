@@ -1,2 +1,4 @@
-﻿  widget-illuminated-object.cpp
+﻿  object.cpp
+  texture-manager.cpp
+  Generating Code...
   Tanks.vcxproj -> C:\C++\Tanks\x64\Debug\Tanks.exe

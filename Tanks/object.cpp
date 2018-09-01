@@ -1,4 +1,5 @@
 #include "object.h"
+#include "texture-manager.h"
 
 
 Object::Object(const char *in_TexturePath) : m_Pos(sf::Vector2f(0, 0)), m_Size(sf::Vector2f(0, 0)), m_Parent(NULL)
@@ -6,10 +7,10 @@ Object::Object(const char *in_TexturePath) : m_Pos(sf::Vector2f(0, 0)), m_Size(s
 	SetTexture(in_TexturePath);
 }
 
-bool Object::SetTexture(const char *in_TexturePath)
+bool Object::SetTexture(const char *in_TextureName)
 {
-	m_Texture.loadFromFile(in_TexturePath ? in_TexturePath : "");
-	m_Sprite.setTexture(m_Texture);
+	sf::Texture *texture = TextureManager::GetInstance()->GetTexture(in_TextureName);
+	m_Sprite.setTexture(*texture);
 
 	calculateSpriteSize();
 	return true;
@@ -23,7 +24,6 @@ Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(
 Object::Object(const Object *in_Object)
 {
 	m_Parent = NULL;
-	m_Texture = in_Object->m_Texture;
 	m_Sprite = in_Object->m_Sprite;
 
 	SetPos(in_Object->GetPos());
@@ -89,6 +89,18 @@ bool Object::CheckIntersect(const sf::Vector2f &in_Pos) const
 
 	return ((in_Pos.x >= pos.x && in_Pos.x <= pos.x + size.x)
 		&& (in_Pos.y >= pos.y && in_Pos.y <= pos.y + size.y));
+}
+
+bool Object::CheckIntersectX(const Object *in_Object) const
+{
+	return fabs((GetAbsolutePos().x + GetSize().x / 2) - (in_Object->GetAbsolutePos().x + in_Object->GetSize().x / 2))
+		<= (GetSize().x / 2 + in_Object->GetSize().x / 2);
+}
+
+bool Object::CheckIntersectY(const Object *in_Object) const
+{
+	return fabs((GetAbsolutePos().y + GetSize().y / 2) - (in_Object->GetAbsolutePos().y + in_Object->GetSize().y / 2))
+		<= (GetSize().y / 2 + in_Object->GetSize().y / 2);
 }
 
 void Object::Draw(sf::RenderWindow *in_RenderWindow)
