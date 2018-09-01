@@ -1,23 +1,49 @@
 #pragma once
 #include "game-object.h"
+#include "container.h"
 
 namespace Config_Parser
 {
 	bool Is_Comment_Line(const char *in_Buf);
 	const char *Read(const char *in_Buf, std::string &out_Val);
 	const char *Read(const char *in_Buf, int &out_Val);
+	const char *Read(const char *in_Buf, size_t &out_Val);
 	const char *Read(const char *in_Buf, float &out_Val);
 }
+
+class File
+{
+public:
+	File();
+	~File();
+
+public:
+	bool Open(const char *in_Path, const char *in_Mode);
+	void Close();
+
+	bool ReadLine(std::string &out_Buf);
+	bool WriteBuf(const char *in_Buf);
+
+	bool IsFileEof() const;
+	bool IsFileOpened() const;
+
+private:
+	FILE *m_Handle;
+};
 
 class ConfigManager
 {
 public:
-	bool Load(const char *path);
+	bool LoadGameObjects(const char *path);
 	// const Object *Get_Prortype();
 	GameObject *Create_Object(Object_Type type) const;
 
+	void SaveLevel(const char *in_FilePath, Container<GameObject> *in_Container);
+	void LoadLevel(const char *in_FilePath, Container<GameObject> *in_Container);
+
 private:
-	size_t Read_Line(FILE *in_File, char *out_Buf, const size_t in_BufSize) const;
+	bool saveObject(const GameObject *in_Object, std::string &out_Buf) const;
+	bool loadObject(const char *in_Buf, GameObject **out_Object) const;
 
 private:
 	std::map<Object_Type, const GameObject *> m_Prototypes;

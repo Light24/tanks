@@ -61,59 +61,115 @@ namespace Config_Parser
 			++pWordEnd;
 		return pWordEnd;
 	}
+
+	const char *Read(const char *in_Buf, size_t &out_Val)
+	{
+		const char *pWordEnd = NULL;
+		pWordEnd = Config_Parser::Get_Word_Pos_End(in_Buf);
+		if (pWordEnd)
+			out_Val = std::stoi(std::string(in_Buf, 0, (pWordEnd - in_Buf)));
+
+		if (*pWordEnd == PARSER_PARAMETER_NEXT)
+			++pWordEnd;
+		return pWordEnd;
+	}
 }
 
-bool ConfigManager::Load(const char *path)
+File::File() : m_Handle(NULL)
 {
-	FILE *pFile = fopen(path, "r");
-	if (!pFile)
+
+}
+
+File::~File()
+{
+
+}
+
+
+bool File::Open(const char *in_Path, const char *in_Mode)
+{
+	m_Handle = fopen(in_Path, in_Mode);
+	if (!in_Path)
 	{
-		printf("File %s not found", path);
+		printf("File %s not found", in_Path);
 		return false;
 	}
+
+	return true;
+}
+
+void File::Close()
+{
+	fclose(m_Handle);
+	m_Handle = NULL;
+}
+
+bool File::ReadLine(std::string &out_Buf)
+{
+	if (!IsFileOpened())
+		return false;
+	if (IsFileEof())
+		return false;
 
 	const size_t Buffer_Size = 256;
 	char buf[Buffer_Size];
 
-	size_t readSize;
-	while ((readSize = this->Read_Line(pFile, buf, Buffer_Size)))
+	char readedChar;
+	while (fread(&readedChar, sizeof(char), 1, m_Handle))
 	{
-		if (Config_Parser::Is_Comment_Line(buf))
-			continue;
+		if (readedChar == '\n')
+			break;
 
-		const GameObject *prototype = GameObject::Create(buf);
-		m_Prototypes[prototype->GetType()] = prototype;
+		out_Buf += readedChar;
 	}
 
-	fclose(pFile);
 	return true;
 }
 
-size_t ConfigManager::Read_Line(FILE *in_File, char *out_Buf, const size_t in_BufSize) const
+bool File::WriteBuf(const char *in_Buf)
 {
-	char *pBuf = out_Buf;
+	if (!IsFileOpened())
+		return false;
 
-	size_t readCount;
-	while ((readCount = fread(pBuf, sizeof(char), 1, in_File)))
+	const size_t writedBytes = fwrite(in_Buf, strlen(in_Buf), 1, m_Handle);
+	return (writedBytes == strlen(in_Buf));
+}
+
+bool File::IsFileEof() const
+{
+	return feof(m_Handle);
+}
+
+bool File::IsFileOpened() const
+{
+	return m_Handle;
+}
+
+
+bool ConfigManager::LoadGameObjects(const char *path)
+{
+	File file;
+	file.Open(path, "r");
+	if (!file.IsFileOpened())
+		return false;
+
+	std::string strLine;
+	while (file.ReadLine(strLine))
 	{
-		pBuf += readCount;
-
-		if (*(pBuf - 1) == '\n')
+		if (Config_Parser::Is_Comment_Line(strLine.c_str()))
 		{
-			*(pBuf - 1) = '\0';
-			break;
+			strLine.clear();
+			continue;
 		}
 
-		if ((pBuf - out_Buf) >= in_BufSize)
-		{
-			printf("Buffer too small for read line");
-			debug_assert("Buffer too small for read line");
-			*(pBuf) = '\0';
-			break;
-		}
+		const GameObject *prototype = GameObject::Create(strLine.c_str());
+		m_Prototypes[prototype->GetType()] = prototype;
+
+		strLine.clear();
 	}
+	file.Close();
 
-	return (pBuf - out_Buf);
+	return true;
 }
 
 GameObject *ConfigManager::Create_Object(Object_Type type) const
@@ -126,4 +182,60 @@ GameObject *ConfigManager::Create_Object(Object_Type type) const
 	}
 
 	return it->second->Clone();
+}
+
+
+void ConfigManager::SaveLevel(const char *in_FilePath, Container<GameObject> *in_Container)
+{
+	File file;
+	file.Open(in_FilePath, "w");
+	for (size_t i = 0; i != in_Container->GetWidgetsCount(); ++i)
+	{
+		const GameObject *object = in_Container->GetWidget(i);
+		std::string objectBuf;
+		saveObject(object, objectBuf);
+		file.WriteBuf(objectBuf.c_str());
+		file.WriteBuf("\n");
+	}
+}
+
+void ConfigManager::LoadLevel(const char *in_FilePath, Container<GameObject> *in_Container)
+{
+	File file;
+	file.Open(in_FilePath, "r");
+
+	std::string buf;
+	while (file.ReadLine(buf))
+	{
+		GameObject *object;
+		loadObject(buf.c_str(), &object);
+
+		in_Container->AddWidget(object);
+	}
+}
+
+bool ConfigManager::saveObject(const GameObject *in_Object, std::string &out_Buf) const
+{
+	const size_t &type = in_Object->GetType();
+	out_Buf += type;
+
+	const sf::Vector2f &pos = in_Object->GetPos();
+	out_Buf += pos.x;
+	out_Buf += pos.y;
+
+	return true;
+}
+
+bool ConfigManager::loadObject(const char *in_Buf, GameObject **out_Object) const
+{
+	size_t type;
+	Config_Parser::Read(in_Buf, type);
+	*out_Object = this->Create_Object((Object_Type) type);
+
+	sf::Vector2f pos;
+	Config_Parser::Read(in_Buf, pos.x);
+	Config_Parser::Read(in_Buf, pos.y);
+	(*out_Object)->SetPos(pos);
+
+	return true;
 }

@@ -46,8 +46,8 @@ void WindowEditor::onMoveListener(Object *in_Object, const sf::Event &in_Event)
 
 	in_Object->SetTexture(NULL); // "action_accept.png");
 
-	// найти объект, с которым переекается наш объект, с увеличенным размером,
-	// сместить наш объект по оси так, что бы избежать пересечения
+	// найдем объект, с которым переекается наш объект,
+	// сместим наш объект по одной из осей так, что бы избежать пересечения
 	for (size_t i = 0; i != m_WidgetGameEditor->GetWidgetsCount(); ++i)
 	{
 		const Object *object = m_WidgetGameEditor->GetWidget(i);

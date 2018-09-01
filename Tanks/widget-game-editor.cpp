@@ -8,7 +8,16 @@ WidgetGameEditor::~WidgetGameEditor()
 {
 }
 
+#include "game-object.h"
 void WidgetGameEditor::SaveLevel(Engine *in_Engine)
 {
-	// in_Engine->GetConfigManager()->Save()
+	for (size_t i = 0; i != GetWidgetsCount(); ++i)
+	{
+		const Object *object = GetWidget(i);
+		object->GetPos();
+		object->GetSize();
+	}
+
+	Container<GameObject> *container = dynamic_cast<Container<GameObject> *>(this);
+	in_Engine->GetConfigManager()->SaveLevel("level_0.lvl", container);
 }
