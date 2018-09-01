@@ -94,13 +94,13 @@ bool Object::CheckIntersect(const sf::Vector2f &in_Pos) const
 bool Object::CheckIntersectX(const Object *in_Object) const
 {
 	return fabs((GetAbsolutePos().x + GetSize().x / 2) - (in_Object->GetAbsolutePos().x + in_Object->GetSize().x / 2))
-		<= (GetSize().x / 2 + in_Object->GetSize().x / 2);
+		< (GetSize().x / 2 + in_Object->GetSize().x / 2);
 }
 
 bool Object::CheckIntersectY(const Object *in_Object) const
 {
 	return fabs((GetAbsolutePos().y + GetSize().y / 2) - (in_Object->GetAbsolutePos().y + in_Object->GetSize().y / 2))
-		<= (GetSize().y / 2 + in_Object->GetSize().y / 2);
+		< (GetSize().y / 2 + in_Object->GetSize().y / 2);
 }
 
 void Object::Draw(sf::RenderWindow *in_RenderWindow)

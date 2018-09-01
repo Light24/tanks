@@ -182,7 +182,7 @@ void GameObject::Update(const sf::Time &in_Time)
 
 bool GameObject::CheckIntersectX(const GameObject *in_Object, const sf::Time in_Timeout) const
 {
-	if (fabs((GetPos().y + GetSize().y / 2) - (in_Object->GetPos().y + in_Object->GetSize().y / 2)) > GetSize().y / 2 + in_Object->GetSize().y / 2)
+	if (fabs((GetPos().y + GetSize().y / 2) - (in_Object->GetPos().y + in_Object->GetSize().y / 2)) >= GetSize().y / 2 + in_Object->GetSize().y / 2)
 		return false;
 
 	if (GetPos().x + GetSize().x <= in_Object->GetPos().x)
@@ -195,7 +195,7 @@ bool GameObject::CheckIntersectX(const GameObject *in_Object, const sf::Time in_
 
 bool GameObject::CheckIntersectY(const GameObject *in_Object, const sf::Time in_Timeout) const
 {
-	if (fabs((GetPos().x + GetSize().x / 2) - (in_Object->GetPos().x + in_Object->GetSize().x / 2)) > GetSize().x / 2 + in_Object->GetSize().x / 2)
+	if (fabs((GetPos().x + GetSize().x / 2) - (in_Object->GetPos().x + in_Object->GetSize().x / 2)) >= GetSize().x / 2 + in_Object->GetSize().x / 2)
 		return false;
 
 	if (GetPos().y + GetSize().y <= in_Object->GetPos().y)
