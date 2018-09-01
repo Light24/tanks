@@ -38,8 +38,8 @@ public:
 	// const Object *Get_Prortype();
 	GameObject *Create_Object(Object_Type type) const;
 
-	void SaveLevel(const char *in_FilePath, Container<GameObject> *in_Container);
-	void LoadLevel(const char *in_FilePath, Container<GameObject> *in_Container);
+	void SaveLevel(const char *in_FilePath, Container<Object> *in_Container);
+	void LoadLevel(const char *in_FilePath, Container<Object> *in_Container);
 
 private:
 	bool saveObject(const GameObject *in_Object, std::string &out_Buf) const;

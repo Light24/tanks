@@ -22,15 +22,28 @@ Engine::~Engine(void)
 		delete m_Window;
 		m_Window = NULL;
 	}
+
+	for (size_t i = 0; i != m_Windows.size(); ++i)
+		delete m_Windows[i];
+	m_Windows.clear();
+
+	destroyObjectsDeffered();
 }
 
 void Engine::Update(const sf::Time &in_Time)
 {
+	if (!m_Windows.size())
+		return;
+
+	auto window = m_Windows[m_Windows.size() - 1];
+	window->Update(in_Time);
+	/*
 	for (size_t i = 0; i != m_Windows.size(); ++i)
 	{
 		auto window = m_Windows[i];
 		window->Update(in_Time);
 	}
+	*/
 }
 
 void Engine::HandleEvents()
@@ -41,24 +54,36 @@ void Engine::HandleEvents()
 		if (event.type == sf::Event::Closed)
 			m_Window->close();
 
+		if (!m_Windows.size())
+			continue;
+
+		auto window = m_Windows[m_Windows.size() - 1];
+		window->HandleEvent(event);
+		/*
 		for (size_t i = 0; i != m_Windows.size(); ++i)
 		{
 			auto window = m_Windows[i];
 			window->HandleEvent(event);
 		}
+		*/
 	}
 }
 
 void Engine::Draw()
 {
 	m_Window->clear();
-	for (size_t i = 0; i != m_Windows.size(); ++i)
+	if (m_Windows.size())
+	{
+		auto window = m_Windows[m_Windows.size() - 1];
+		window->Draw(m_Window);
+	}
+	/*for (size_t i = 0; i != m_Windows.size(); ++i)
 	{
 		m_Window->setView(m_Window->getDefaultView());
 
 		auto window = m_Windows[i];
 		window->Draw(m_Window);
-	}
+	}*/
 	m_Window->display();
 }
 
@@ -108,13 +133,24 @@ void Engine::Close()
 	m_Window->close();
 }
 
+void Engine::AddWindow(Window<Widget> *in_Window)
+{
+	m_Windows.push_back(in_Window);
+}
+
 void Engine::ChangeWindow(Window<Widget> *in_Window)
 {
-	for (size_t i = 0; i != m_Windows.size(); ++i)
+	/* for (size_t i = 0; i != m_Windows.size(); ++i)
 		m_DestroyableObjects.push_back(m_Windows[i]);
-	m_Windows.clear();
+	m_Windows.clear(); */
+	if (m_Windows.size())
+	{
+		Container<Widget> *window = m_Windows[m_Windows.size() - 1];
+		m_Windows.pop_back();
+		m_DestroyableObjects.push_back(window);
+	}
 
-	m_Windows.push_back(in_Window);
+	AddWindow(in_Window);
 }
 
 void Engine::destroyObjectsDeffered()

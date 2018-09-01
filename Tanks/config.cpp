@@ -153,19 +153,19 @@ bool ConfigManager::LoadGameObjects(const char *path)
 	if (!file.IsFileOpened())
 		return false;
 
-	std::string strLine;
-	while (file.ReadLine(strLine))
+	std::string buf;
+	while (file.ReadLine(buf) && buf.size())
 	{
-		if (Config_Parser::Is_Comment_Line(strLine.c_str()))
+		if (Config_Parser::Is_Comment_Line(buf.c_str()))
 		{
-			strLine.clear();
+			buf.clear();
 			continue;
 		}
 
-		const GameObject *prototype = GameObject::Create(strLine.c_str());
+		const GameObject *prototype = GameObject::Create(buf.c_str());
 		m_Prototypes[prototype->GetType()] = prototype;
 
-		strLine.clear();
+		buf.clear();
 	}
 	file.Close();
 
@@ -185,13 +185,13 @@ GameObject *ConfigManager::Create_Object(Object_Type type) const
 }
 
 
-void ConfigManager::SaveLevel(const char *in_FilePath, Container<GameObject> *in_Container)
+void ConfigManager::SaveLevel(const char *in_FilePath, Container<Object> *in_Container)
 {
 	File file;
 	file.Open(in_FilePath, "w");
 	for (size_t i = 0; i != in_Container->GetWidgetsCount(); ++i)
 	{
-		const GameObject *object = in_Container->GetWidget(i);
+		const GameObject *object = dynamic_cast<GameObject *>(in_Container->GetWidget(i));
 		std::string objectBuf;
 		saveObject(object, objectBuf);
 		file.WriteBuf(objectBuf.c_str());
@@ -199,42 +199,45 @@ void ConfigManager::SaveLevel(const char *in_FilePath, Container<GameObject> *in
 	}
 }
 
-void ConfigManager::LoadLevel(const char *in_FilePath, Container<GameObject> *in_Container)
+void ConfigManager::LoadLevel(const char *in_FilePath, Container<Object> *in_Container)
 {
 	File file;
 	file.Open(in_FilePath, "r");
 
 	std::string buf;
-	while (file.ReadLine(buf))
+	while (file.ReadLine(buf) && buf.size())
 	{
 		GameObject *object;
 		loadObject(buf.c_str(), &object);
 
 		in_Container->AddWidget(object);
+		buf.clear();
 	}
 }
 
 bool ConfigManager::saveObject(const GameObject *in_Object, std::string &out_Buf) const
 {
 	const size_t &type = in_Object->GetType();
-	out_Buf += type;
+	out_Buf += std::to_string(type);
 
 	const sf::Vector2f &pos = in_Object->GetPos();
-	out_Buf += pos.x;
-	out_Buf += pos.y;
+	out_Buf += ":" + std::to_string(pos.x);
+	out_Buf += ":" + std::to_string(pos.y);
 
 	return true;
 }
 
 bool ConfigManager::loadObject(const char *in_Buf, GameObject **out_Object) const
 {
+	const char *pBuf = in_Buf;
+
 	size_t type;
-	Config_Parser::Read(in_Buf, type);
+	pBuf = Config_Parser::Read(pBuf, type);
 	*out_Object = this->Create_Object((Object_Type) type);
 
 	sf::Vector2f pos;
-	Config_Parser::Read(in_Buf, pos.x);
-	Config_Parser::Read(in_Buf, pos.y);
+	pBuf = Config_Parser::Read(pBuf, pos.x);
+	pBuf = Config_Parser::Read(pBuf, pos.y);
 	(*out_Object)->SetPos(pos);
 
 	return true;

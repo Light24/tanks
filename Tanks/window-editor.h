@@ -15,7 +15,12 @@ private:
 	void onMovingEndListener(Object *in_Object, const sf::Event &in_Event);
 	void onMoveListener(Object *in_Object, const sf::Event &in_Event);
 
+	void loadLevel();
+	void saveLevel();
+
 private:
+	Engine *m_Engine;
+
 	WidgetGameEditor *m_WidgetGameEditor;
 	WidgetTemplates *m_WidgetTemplates;
 };
