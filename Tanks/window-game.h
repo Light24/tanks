@@ -11,4 +11,8 @@ public:
 	virtual ~WindowGame();
 
 public:
+	virtual void HandleEvent(const sf::Event &in_Event) override;
+
+private:
+	Engine *m_Engine;
 };

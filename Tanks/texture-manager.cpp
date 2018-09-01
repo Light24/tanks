@@ -26,13 +26,13 @@ void TextureManager::SetTextureDir(const char *in_TextureDir)
 
 sf::Texture *TextureManager::GetTexture(const char *in_TextureName)
 {
-	if (m_Textures[in_TextureName])
-		return m_Textures[in_TextureName];
+	if (m_Textures[std::string(in_TextureName ? in_TextureName : "")])
+		return m_Textures[std::string(in_TextureName ? in_TextureName : "")];
 
 	sf::Texture *texture = new sf::Texture();
 	if (in_TextureName)
 		texture->loadFromFile(std::string(m_TextureDir).append(in_TextureName));
-	m_Textures[in_TextureName] = texture;
+	m_Textures[std::string(in_TextureName ? in_TextureName : "")] = texture;
 
-	return m_Textures[in_TextureName];
+	return m_Textures[std::string(in_TextureName ? in_TextureName : "")];
 }

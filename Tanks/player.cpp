@@ -17,16 +17,16 @@ bool Player::HandleEvent(const sf::Event &in_Event)
 		switch (in_Event.key.code)
 		{
 			case sf::Keyboard::Left:
-				m_Object->SetVelocity(sf::Vector2f(-1, 0));
+				m_Object->SetVelocity(sf::Vector2f(-1 * m_Object->GetMaxVelocity(), 0));
 				return true;
 			case sf::Keyboard::Right:
-				m_Object->SetVelocity(sf::Vector2f(1, 0));
+				m_Object->SetVelocity(sf::Vector2f(1 * m_Object->GetMaxVelocity(), 0));
 				return true;
 			case sf::Keyboard::Up:
-				m_Object->SetVelocity(sf::Vector2f(0, -1));
+				m_Object->SetVelocity(sf::Vector2f(0, -1 * m_Object->GetMaxVelocity()));
 				return true;
 			case sf::Keyboard::Down:
-				m_Object->SetVelocity(sf::Vector2f(0, 1));
+				m_Object->SetVelocity(sf::Vector2f(0, 1 * m_Object->GetMaxVelocity()));
 				return true;
 		}
 	}

@@ -6,13 +6,17 @@ WidgetTemplates::WidgetTemplates(Engine *in_Engine, const sf::Vector2f &in_Pos, 
 {
 	m_Engine = in_Engine;
 
-	for (size_t objectNum = Object_Type::Object_Type_First; objectNum != Object_Type::Object_Type_Last; ++objectNum)
+	for (size_t objectNum = Object_Subtype::Object_Subtype_First; objectNum != Object_Subtype::Object_Subtype_Last; ++objectNum)
 	{
 		// Special object
-		if (objectNum == Object_Type::Object_Type_Invulnerable_Wall)
+		if (objectNum == Object_Subtype::Object_Subtype_Invulnerable_Wall)
 			continue;
 
-		GameObject *gameObject = in_Engine->GetConfigManager()->Create_Object((Object_Type) objectNum);
+		objectNum = (int)(Object_Subtype) objectNum;
+		GameObject *gameObject = in_Engine->GetConfigManager()->Create_Object((Object_Subtype) objectNum);
+		if (!gameObject)
+			continue;
+
 		AddWidget(gameObject);
 	}
 
@@ -30,4 +34,29 @@ Object *WidgetTemplates::onMoveBegin(Object *in_Object, const sf::Event &in_Even
 	AddWidget(dynamic_cast<GameObject *>(clonedObject));
 
 	return clonedObject;
+}
+
+#define OBJECTS_OFFSET_X 10
+#define OBJECTS_OFFSET_Y 10
+
+void WidgetTemplates::AddWidget(Object *in_Widget)
+{
+	sf::Vector2f pos = in_Widget->GetPos();
+	if (GetWidgetsCount())
+	{
+		const Object *object = GetWidget(GetWidgetsCount() - 1);
+		pos = object->GetPos();
+		if ((object->GetPos().x + object->GetSize().x + OBJECTS_OFFSET_X) + in_Widget->GetSize().x < GetSize().x)
+		{
+			pos.x = (object->GetPos().x + object->GetSize().x + OBJECTS_OFFSET_X);
+		}
+		else
+		{
+			pos.x = 0;
+			pos.y = (object->GetPos().y + object->GetSize().y + OBJECTS_OFFSET_Y);
+		}
+	}
+	in_Widget->SetPos(pos);
+
+	ContainerMoving::AddWidget(in_Widget);
 }

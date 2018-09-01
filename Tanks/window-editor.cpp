@@ -5,6 +5,7 @@
 WindowEditor::WindowEditor(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Window<Widget>(in_Pos, in_Size)
 {
 	m_Engine = in_Engine;
+	m_IsShiftPressed = false;
 
 	m_WidgetGameEditor = new WidgetGameEditor(in_Engine, sf::Vector2f(0, 0), sf::Vector2f(in_Size.x * 0.8, in_Size.y));
 	m_WidgetGameEditor->AddMoveBeginListener(PREPARE_MOVE_BEGIN_LISTENER(this, &WindowEditor::onMoveBeginListener));
@@ -21,15 +22,61 @@ WindowEditor::WindowEditor(Engine *in_Engine, const sf::Vector2f &in_Pos, const 
 	loadLevel();
 }
 
-
 WindowEditor::~WindowEditor()
 {
 	saveLevel();
 }
 
+
+void WindowEditor::HandleEvent(const sf::Event &in_Event)
+{
+	Window::HandleEvent(in_Event);
+
+	if (in_Event.type == sf::Event::KeyPressed)
+	{
+		if (in_Event.key.code == sf::Keyboard::Escape)
+		{
+			m_Engine->RemoveWindow(this);
+			return;
+		}
+		else if (in_Event.key.code == sf::Keyboard::LShift)
+		{
+			setShiftPressed(true);
+		}
+	}
+	else if (in_Event.type == sf::Event::KeyReleased)
+	{
+		setShiftPressed(false);
+	}
+}
+
 Object *WindowEditor::onMoveBeginListener(Object *in_Object, const sf::Event &in_Event)
 {
 	Container<Object> *container = dynamic_cast<Container<Object> *>(in_Object->GetParent());
+
+	// найдем игрока
+	if (dynamic_cast<GameObject *>(in_Object)->GetSubtype() == Object_Subtype_Player)
+	{
+		// если у нас уже есть игрок и мы хотим создать нового игрока, то запретим это делать
+		const Object *player = NULL;
+		for (size_t i = 0; i != m_WidgetGameEditor->GetWidgetsCount(); ++i)
+		{
+			const GameObject *object = dynamic_cast<GameObject *>(m_WidgetGameEditor->GetWidget(i));
+			if (object->GetSubtype() == Object_Subtype_Player)
+			{
+				player = object;
+				break;
+			}
+		}
+		if (player)
+		{
+			if (in_Object != player)
+			{
+				container->RemoveWidget(in_Object);
+				return NULL;
+			}
+		}
+	}
 
 	WidgetIlluminatedObject *illuminatedObject = new WidgetIlluminatedObject(in_Object);
 	container->AddWidget(illuminatedObject);
@@ -73,9 +120,19 @@ void WindowEditor::onMoveListener(Object *in_Object, const sf::Event &in_Event)
 
 			// будем выравнивать объект только по той оси, по которой мышкой глубже попали в соседнюю фигуру
 			if (fabs(deltaPos.x) > fabs(deltaPos.y))
-				deltaPos.x = 0;
+			{
+				if (isShiftPressed())
+					deltaPos.x = (in_Object->GetAbsolutePos().x - object->GetAbsolutePos().x);
+				else
+					deltaPos.x = 0;
+			}
 			else
-				deltaPos.y = 0;
+			{
+				if (isShiftPressed())
+					deltaPos.y = (in_Object->GetAbsolutePos().y - object->GetAbsolutePos().y);
+				else
+					deltaPos.y = 0;
+			}
 
 			in_Object->SetPos(sf::Vector2f(in_Object->GetPos().x - deltaPos.x, in_Object->GetPos().y - deltaPos.y));
 		}
@@ -111,4 +168,15 @@ void WindowEditor::saveLevel()
 {
 	// Container<GameObject> *container = dynamic_cast<Container<GameObject> *>(m_WidgetGameEditor);
 	m_Engine->GetConfigManager()->SaveLevel("level_0.lvl", m_WidgetGameEditor);
+}
+
+
+const void WindowEditor::setShiftPressed(bool isPressed)
+{
+	m_IsShiftPressed = isPressed;
+}
+
+bool WindowEditor::isShiftPressed() const
+{
+	return m_IsShiftPressed;
 }

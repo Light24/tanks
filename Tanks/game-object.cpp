@@ -6,20 +6,33 @@
 #include <stdio.h>
 #include <string>
 
-GameObject::GameObject(const char *in_Buf) : Object("image.png"), m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
+Object_Type GetType(Object_Subtype in_Subtype)
+{
+	switch (in_Subtype)
+	{
+		case Object_Subtype_Player:
+		case Object_Subtype_Tank:
+			return Object_Type_Tank;
+		case Object_Subtype_Invulnerable_Wall:
+		case Object_Subtype_Wall:
+			return Object_Type_Wall;
+		case Object_Subtype_Missile:
+			return Object_Type_Missile;
+	}
+
+	return Object_Type_First;
+}
+
+GameObject::GameObject(const char *in_Buf) : m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
 {
 	id.Generate();
 
 	const char *pBuf = in_Buf;
 
-	std::string name;
-	if (!(pBuf = Config_Parser::Read(pBuf, name)))
+	int subtype;
+	if (!(pBuf = Config_Parser::Read(pBuf, subtype)))
 		throw "Error create Object";
-
-	int type;
-	if (!(pBuf = Config_Parser::Read(pBuf, type)))
-		throw "Error create Object";
-	SetType(type);
+	SetSubtype(subtype);
 
 	sf::Vector2f size;
 	if (!(pBuf = Config_Parser::Read(pBuf, size.x)))
@@ -36,9 +49,13 @@ GameObject::GameObject(const char *in_Buf) : Object("image.png"), m_Velocity(sf:
 		throw "Error create Object";
 	m_Health = health;
 
-	float velocity;
-	if (!(pBuf = Config_Parser::Read(pBuf, velocity)))
+	if (!(pBuf = Config_Parser::Read(pBuf, m_MaxVelocity)))
 		throw "Error create Object";
+
+	std::string textureName;
+	if (!(pBuf = Config_Parser::Read(pBuf, textureName)))
+		throw "Error create Object";
+	SetTexture(textureName.c_str());
 
 	calculateDirection();
 }
@@ -46,9 +63,10 @@ GameObject::GameObject(const char *in_Buf) : Object("image.png"), m_Velocity(sf:
 GameObject::GameObject(const GameObject *in_GameObject) : Object(in_GameObject)
 {
 	id.Generate();
-	m_Type = in_GameObject->m_Type;
+	m_Subtype = in_GameObject->m_Subtype;
 	m_Prototype = in_GameObject->m_Prototype ? in_GameObject->m_Prototype : in_GameObject;
 	m_Group = in_GameObject->m_Group;
+	m_MaxVelocity = in_GameObject->m_MaxVelocity;
 	m_Velocity = in_GameObject->m_Velocity;
 	m_Direction = in_GameObject->m_Direction;
 	m_Damage = in_GameObject->m_Damage;
@@ -59,6 +77,11 @@ GameObject::~GameObject(void)
 {
 }
 
+
+float GameObject::GetMaxVelocity() const
+{
+	return m_MaxVelocity;
+}
 
 sf::Vector2f GameObject::GetVelocity() const
 {
@@ -100,17 +123,17 @@ void GameObject::SetGroup(size_t in_Group)
 	m_Group = in_Group;
 }
 
-void GameObject::SetType(size_t in_Type)
+void GameObject::SetSubtype(size_t in_Subtype)
 {
-	if (in_Type < Object_Type_First || in_Type > Object_Type_Last)
-		throw "Invalid type";
+	if (in_Subtype < Object_Subtype_First || in_Subtype > Object_Subtype_Last)
+		throw "Invalid subtype";
 
-	m_Type = (Object_Type) in_Type;
+	m_Subtype = (Object_Subtype) in_Subtype;
 }
 
-Object_Type GameObject::GetType() const
+Object_Subtype GameObject::GetSubtype() const
 {
-	return m_Type;
+	return m_Subtype;
 }
 
 int GameObject::GetHealth() const
@@ -122,17 +145,13 @@ const GameObject *GameObject::Create(const char *in_Buf)
 {
 	const char *pBuf = in_Buf;
 
-	std::string name;
-	if (!(pBuf = Config_Parser::Read(pBuf, name)))
+	int subtype;
+	if (!(pBuf = Config_Parser::Read(pBuf, subtype)))
+		return NULL;
+	if (subtype < Object_Subtype_First || subtype > Object_Subtype_Last)
 		return NULL;
 	
-	int type;
-	if (!(pBuf = Config_Parser::Read(pBuf, type)))
-		return NULL;
-	if (type < Object_Type_First || type > Object_Type_Last)
-		return NULL;
-	
-	return CreateImpl((Object_Type) type, in_Buf);
+	return CreateImpl(GetType((Object_Subtype) subtype), in_Buf);
 }
 
 GameObject *GameObject::CreateImpl(const Object_Type in_Type, const char *in_Buf)
@@ -146,7 +165,6 @@ GameObject *GameObject::CreateImpl(const Object_Type in_Type, const char *in_Buf
 				break;
 
 			case Object_Type::Object_Type_Wall:
-			case Object_Type::Object_Type_Invulnerable_Wall:
 				object = new Wall(in_Buf);
 				break;
 		}

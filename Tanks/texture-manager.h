@@ -25,5 +25,5 @@ public:
 	static TextureManager *m_Instance;
 
 	std::string m_TextureDir;
-	std::map<const char *, sf::Texture *> m_Textures;
+	std::map<std::string, sf::Texture *> m_Textures;
 };

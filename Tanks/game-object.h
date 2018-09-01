@@ -38,9 +38,23 @@ enum Object_Type
 {
 	Object_Type_First = 0,
 	Object_Type_Tank = Object_Type_First,
-	Object_Type_Invulnerable_Wall,
 	Object_Type_Wall,
+	Object_Type_Missile,
 	Object_Type_Last = Object_Type_Wall
+};
+
+enum Object_Subtype
+{
+	Object_Subtype_First = 0,
+	// Object_Type_Tank
+	Object_Subtype_Player = Object_Type_First,
+	Object_Subtype_Tank,
+	// Object_Type_Wall
+	Object_Subtype_Invulnerable_Wall = 50,
+	Object_Subtype_Wall,
+	// Object_Type_Missile
+	Object_Subtype_Missile = 100,
+	Object_Subtype_Last = Object_Subtype_Missile
 };
 
 const int GROUP_NONE     = 0;
@@ -58,6 +72,8 @@ public:
 	virtual GameObject *Clone() const = 0;
 
 public:
+	float GetMaxVelocity() const;
+
 	sf::Vector2f GetVelocity() const;
 	void SetVelocity(const sf::Vector2f &in_Velocity);
 
@@ -66,8 +82,8 @@ public:
 	size_t GetGroup() const;
 	void SetGroup(size_t in_Group);
 
-	void SetType(size_t in_Type);
-	Object_Type GetType() const;
+	void SetSubtype(size_t in_Subtype);
+	Object_Subtype GetSubtype() const;
 
 	int GetHealth() const;
 
@@ -85,7 +101,7 @@ private:
 
 private:
 	ID id;
-	Object_Type m_Type;
+	Object_Subtype m_Subtype;
 	const GameObject *m_Prototype;
 
 	size_t m_Group;
@@ -93,6 +109,7 @@ private:
 	sf::Vector2f m_Velocity;
 	sf::Vector2f m_Direction;
 
+	float m_MaxVelocity;
 	int m_Damage;
 	size_t m_Health;
 };

@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-Engine::Engine(void) : m_Size(800, 400)
+Engine::Engine(void) : m_Size(1600, 800)
 {
 	TextureManager::GetInstance()->SetTextureDir("C:/C++/Tanks/x64/Debug/");
 
@@ -95,7 +95,7 @@ void Engine::Execute()
 
 	Window<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
 	menuWindow->SetTexture("background.png");
-	ChangeWindow(menuWindow);
+	AddWindow(menuWindow);
 
 	sf::Clock clock;
 	sf::Time lastTime = clock.getElapsedTime();
@@ -138,17 +138,31 @@ void Engine::AddWindow(Window<Widget> *in_Window)
 	m_Windows.push_back(in_Window);
 }
 
+void Engine::RemoveWindow(Container<Widget> *in_Window)
+{
+	int num = -1;
+	for (size_t i = 0; i != m_Windows.size(); ++i)
+	{
+		if (m_Windows[i] != in_Window)
+			continue;
+
+		num = i;
+		break;
+	}
+	if (num == -1)
+		return;
+
+	for (size_t i = num; i != (m_Windows.size() - 1); ++i)
+		m_Windows[i] = m_Windows[i + 1];
+
+	m_Windows.pop_back();
+	m_DestroyableObjects.push_back(in_Window);
+}
+
 void Engine::ChangeWindow(Window<Widget> *in_Window)
 {
-	/* for (size_t i = 0; i != m_Windows.size(); ++i)
-		m_DestroyableObjects.push_back(m_Windows[i]);
-	m_Windows.clear(); */
 	if (m_Windows.size())
-	{
-		Container<Widget> *window = m_Windows[m_Windows.size() - 1];
-		m_Windows.pop_back();
-		m_DestroyableObjects.push_back(window);
-	}
+		RemoveWindow(m_Windows[m_Windows.size() - 1]);
 
 	AddWindow(in_Window);
 }

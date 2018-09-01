@@ -163,7 +163,7 @@ bool ConfigManager::LoadGameObjects(const char *path)
 		}
 
 		const GameObject *prototype = GameObject::Create(buf.c_str());
-		m_Prototypes[prototype->GetType()] = prototype;
+		m_Prototypes[prototype->GetSubtype()] = prototype;
 
 		buf.clear();
 	}
@@ -172,12 +172,12 @@ bool ConfigManager::LoadGameObjects(const char *path)
 	return true;
 }
 
-GameObject *ConfigManager::Create_Object(Object_Type type) const
+GameObject *ConfigManager::Create_Object(Object_Subtype in_Subtype) const
 {
-	auto it = m_Prototypes.find(type);
+	auto it = m_Prototypes.find(in_Subtype);
 	if (it == m_Prototypes.end())
 	{
-		printf("Create object error: not found prototype for type %d", (int)type);
+		printf("Create object error: not found prototype for type %d", (int)in_Subtype);
 		return NULL;
 	}
 
@@ -197,6 +197,7 @@ void ConfigManager::SaveLevel(const char *in_FilePath, Container<Object> *in_Con
 		file.WriteBuf(objectBuf.c_str());
 		file.WriteBuf("\n");
 	}
+	file.Close();
 }
 
 void ConfigManager::LoadLevel(const char *in_FilePath, Container<Object> *in_Container)
@@ -217,8 +218,8 @@ void ConfigManager::LoadLevel(const char *in_FilePath, Container<Object> *in_Con
 
 bool ConfigManager::saveObject(const GameObject *in_Object, std::string &out_Buf) const
 {
-	const size_t &type = in_Object->GetType();
-	out_Buf += std::to_string(type);
+	const size_t &subType = in_Object->GetSubtype();
+	out_Buf += std::to_string(subType);
 
 	const sf::Vector2f &pos = in_Object->GetPos();
 	out_Buf += ":" + std::to_string(pos.x);
@@ -231,9 +232,9 @@ bool ConfigManager::loadObject(const char *in_Buf, GameObject **out_Object) cons
 {
 	const char *pBuf = in_Buf;
 
-	size_t type;
-	pBuf = Config_Parser::Read(pBuf, type);
-	*out_Object = this->Create_Object((Object_Type) type);
+	size_t subType;
+	pBuf = Config_Parser::Read(pBuf, subType);
+	*out_Object = this->Create_Object((Object_Subtype)subType);
 
 	sf::Vector2f pos;
 	pBuf = Config_Parser::Read(pBuf, pos.x);

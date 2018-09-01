@@ -23,6 +23,7 @@ public:
 	ConfigManager *GetConfigManager();
 
 	void AddWindow(Window<Widget> *in_Window);
+	void RemoveWindow(Container<Widget> *in_Window);
 	void ChangeWindow(Window<Widget> *in_Window);
 
 	void Close();

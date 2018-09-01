@@ -36,7 +36,7 @@ class ConfigManager
 public:
 	bool LoadGameObjects(const char *path);
 	// const Object *Get_Prortype();
-	GameObject *Create_Object(Object_Type type) const;
+	GameObject *Create_Object(Object_Subtype type) const;
 
 	void SaveLevel(const char *in_FilePath, Container<Object> *in_Container);
 	void LoadLevel(const char *in_FilePath, Container<Object> *in_Container);
@@ -46,6 +46,6 @@ private:
 	bool loadObject(const char *in_Buf, GameObject **out_Object) const;
 
 private:
-	std::map<Object_Type, const GameObject *> m_Prototypes;
+	std::map<Object_Subtype, const GameObject *> m_Prototypes;
 
 };

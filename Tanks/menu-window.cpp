@@ -38,13 +38,13 @@ MenuWindow::~MenuWindow()
 void MenuWindow::onStartClicked(Button *in_Button)
 {
 	Window *window = new WindowGame(m_Engine, sf::Vector2f(), m_Engine->GetSize());
-	m_Engine->ChangeWindow(window);
+	m_Engine->AddWindow(window);
 }
 
 void MenuWindow::onEditorClicked(Button *in_Button)
 {
 	Window *window = new WindowEditor(m_Engine, sf::Vector2f(), m_Engine->GetSize());
-	m_Engine->ChangeWindow(window);
+	m_Engine->AddWindow(window);
 }
 
 void MenuWindow::onExitClicked(Button *in_Button)
