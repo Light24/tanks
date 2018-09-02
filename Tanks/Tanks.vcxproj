@@ -117,9 +117,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="texture-manager.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="button.cpp" />
