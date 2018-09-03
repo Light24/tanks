@@ -42,6 +42,7 @@ void WidgetIlluminatedObject::Draw(sf::RenderWindow *in_RenderWindow)
 
 void WidgetIlluminatedObject::Update(const sf::Time &in_Time)
 {
+	Widget::Update(in_Time);
 	m_OwnedObject->Update(in_Time);
 }
 

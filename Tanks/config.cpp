@@ -1,5 +1,8 @@
 #include "Config.h"
 
+#include "boost/property_tree/ptree.hpp"
+#include "boost/property_tree/json_parser.hpp"
+
 namespace Config_Parser
 {
 #define PARSER_PARAMETER_COMMENT '#'
@@ -146,8 +149,22 @@ bool File::IsFileOpened() const
 }
 
 
-bool ConfigManager::LoadGameObjects(const char *path)
+bool ConfigManager::LoadGameObjects(const char *in_Path)
 {
+	boost::property_tree::ptree root;
+
+	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/green-tank.json", root);
+	const GameObject *prototype = GameObject::Create(root);
+	m_Prototypes[prototype->GetSubtype()] = prototype;
+
+	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/wall-invulnerable.json", root);
+	const GameObject *prototype2 = GameObject::Create(root);
+	m_Prototypes[prototype2->GetSubtype()] = prototype2;
+
+	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/wall.json", root);
+	const GameObject *prototype3 = GameObject::Create(root);
+	m_Prototypes[prototype3->GetSubtype()] = prototype3;
+	/*
 	File file;
 	file.Open(path, "r");
 	if (!file.IsFileOpened())
@@ -167,7 +184,7 @@ bool ConfigManager::LoadGameObjects(const char *path)
 
 		buf.clear();
 	}
-	file.Close();
+	file.Close();*/
 
 	return true;
 }

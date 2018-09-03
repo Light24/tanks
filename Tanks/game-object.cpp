@@ -23,39 +23,27 @@ Object_Type GetType(Object_Subtype in_Subtype)
 	return Object_Type_First;
 }
 
-GameObject::GameObject(const char *in_Buf) : m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
+GameObject::GameObject(const boost::property_tree::ptree &in_Json) : m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
 {
 	id.Generate();
 
-	const char *pBuf = in_Buf;
+	boost::property_tree::ptree properties = in_Json.get_child("properties");
 
-	int subtype;
-	if (!(pBuf = Config_Parser::Read(pBuf, subtype)))
+	const int subtype = properties.get<int>("subtype");
+	if (subtype < Object_Subtype_First || subtype > Object_Subtype_Last)
 		throw "Error create Object";
 	SetSubtype(subtype);
 
 	sf::Vector2f size;
-	if (!(pBuf = Config_Parser::Read(pBuf, size.x)))
-		throw "Error create Object";
-	if (!(pBuf = Config_Parser::Read(pBuf, size.y)))
-		throw "Error create Object";
+	size.x = properties.get<float>("width", 0);
+	size.y = properties.get<float>("height", 0);
 	SetSize(size);
 
-	if (!(pBuf = Config_Parser::Read(pBuf, m_Damage)))
-		throw "Error create Object";
-	
-	int health;
-	if (!(pBuf = Config_Parser::Read(pBuf, health)))
-		throw "Error create Object";
-	m_Health = health;
+	m_Damage = properties.get<int>("damage", 0);
+	m_Health = properties.get<int>("health");
+	m_MaxVelocity = properties.get<float>("velocity", 0);
 
-	if (!(pBuf = Config_Parser::Read(pBuf, m_MaxVelocity)))
-		throw "Error create Object";
-
-	std::string textureName;
-	if (!(pBuf = Config_Parser::Read(pBuf, textureName)))
-		throw "Error create Object";
-	SetTexture(textureName.c_str());
+	SetTexture(in_Json);
 
 	calculateDirection();
 }
@@ -102,14 +90,34 @@ sf::Vector2f GameObject::GetDirection() const
 
 void GameObject::calculateDirection()
 {
-	if (m_Direction.x == m_Direction.y == 0)
-		m_Direction.x = 1;
+	if (m_Direction.x == 0 && m_Direction.y == 0)
+		setDirectionImpl(sf::Vector2f(1, 0));
 
-	if (m_Velocity.x == m_Velocity.y == 0)
+	if (m_Velocity.x == 0 && m_Velocity.y == 0)
 		return;
 
-	m_Direction.x = m_Velocity.x == 0 ? 0 : (m_Velocity.x < 0 ? -1 : 1);
-	m_Direction.y = m_Velocity.y == 0 ? 0 : (m_Velocity.y < 0 ? -1 : 1);
+	sf::Vector2f direction;
+	direction.x = m_Velocity.x == 0 ? 0 : (m_Velocity.x < 0 ? -1 : 1);
+	direction.y = m_Velocity.y == 0 ? 0 : (m_Velocity.y < 0 ? -1 : 1);
+
+	setDirectionImpl(direction);
+}
+
+void GameObject::setDirectionImpl(const sf::Vector2f &in_Direction)
+{
+	if (in_Direction == m_Direction)
+		return;
+
+	m_Direction = in_Direction;
+
+	if (m_Direction.x > 0)
+		GetAnimation()->SetAnimationType(Animation_Type::Right);
+	if (m_Direction.x < 0)
+		GetAnimation()->SetAnimationType(Animation_Type::Left);
+	if (m_Direction.y > 0)
+		GetAnimation()->SetAnimationType(Animation_Type::Bottom);
+	if (m_Direction.y < 0)
+		GetAnimation()->SetAnimationType(Animation_Type::Top);
 }
 
 
@@ -141,31 +149,25 @@ int GameObject::GetHealth() const
 	return m_Health;
 }
 
-const GameObject *GameObject::Create(const char *in_Buf)
+const GameObject *GameObject::Create(const boost::property_tree::ptree &in_Json)
 {
-	const char *pBuf = in_Buf;
-
-	int subtype;
-	if (!(pBuf = Config_Parser::Read(pBuf, subtype)))
-		return NULL;
-	if (subtype < Object_Subtype_First || subtype > Object_Subtype_Last)
-		return NULL;
+	int type = in_Json.get_child("properties").get<int>("type");
 	
-	return CreateImpl(GetType((Object_Subtype) subtype), in_Buf);
+	return CreateImpl((Object_Type) type, in_Json);
 }
 
-GameObject *GameObject::CreateImpl(const Object_Type in_Type, const char *in_Buf)
+GameObject *GameObject::CreateImpl(const Object_Type in_Type, const boost::property_tree::ptree &in_Json)
 {
 	GameObject *object;
 	try {
 		switch (in_Type)
 		{
 			case Object_Type::Object_Type_Tank:
-				object = new Tank(in_Buf);
+				object = new Tank(in_Json);
 				break;
 
 			case Object_Type::Object_Type_Wall:
-				object = new Wall(in_Buf);
+				object = new Wall(in_Json);
 				break;
 		}
 	}
@@ -178,6 +180,7 @@ GameObject *GameObject::CreateImpl(const Object_Type in_Type, const char *in_Buf
 
 void GameObject::Update(const sf::Time &in_Time)
 {
+	Object::Update(in_Time);
 }
 
 bool GameObject::CheckIntersectX(const GameObject *in_Object, const sf::Time in_Timeout) const

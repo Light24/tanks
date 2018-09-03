@@ -1,5 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include "boost/property_tree/ptree.hpp"
+#include "animation.h"
 
 class Object
 {
@@ -19,6 +21,9 @@ public:
 	sf::Vector2f GetSize() const;
 	void SetSize(const sf::Vector2f &in_Size);
 
+	bool SetTexture(const boost::property_tree::ptree &in_Json);
+	Animation *GetAnimation() const;
+
 	bool SetTexture(const char *in_TextureName);
 
 	sf::Vector2f GetAbsolutePos() const;
@@ -30,7 +35,7 @@ public:
 
 public:
 	virtual void Draw(sf::RenderWindow *in_RenderWindow);
-	virtual void Update(const sf::Time &in_Time) = 0;
+	virtual void Update(const sf::Time &in_Time);
 
 	void CalculateSpritePos();
 
@@ -44,4 +49,5 @@ private:
 	sf::Vector2f m_Size;
 
 	sf::Sprite m_Sprite;
+	Animation *m_Animation;
 };

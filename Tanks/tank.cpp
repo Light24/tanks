@@ -1,9 +1,8 @@
 #include "tank.h"
 #include "config.h"
 
-Tank::Tank(const char *in_Buf) : GameObject(in_Buf)
+Tank::Tank(const boost::property_tree::ptree &in_Json) : GameObject(in_Json)
 {
-	const char *pBuf = in_Buf;
 }
 
 

@@ -2,9 +2,21 @@
 #include "texture-manager.h"
 
 
-Object::Object(const char *in_TexturePath) : m_Pos(sf::Vector2f(0, 0)), m_Size(sf::Vector2f(0, 0)), m_Parent(NULL)
+Object::Object(const char *in_TexturePath) : m_Pos(sf::Vector2f(0, 0)), m_Size(sf::Vector2f(0, 0)), m_Parent(NULL), m_Animation(NULL)
 {
 	SetTexture(in_TexturePath);
+}
+
+bool Object::SetTexture(const boost::property_tree::ptree &in_Json)
+{
+	m_Animation = new Animation(in_Json);
+	calculateSpriteSize();
+	return true;
+}
+
+Animation *Object::GetAnimation() const
+{
+	return m_Animation;
 }
 
 bool Object::SetTexture(const char *in_TextureName)
@@ -16,13 +28,14 @@ bool Object::SetTexture(const char *in_TextureName)
 	return true;
 }
 
-Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(in_Pos), m_Size(in_Size), m_Parent(NULL)
+Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(in_Pos), m_Size(in_Size), m_Parent(NULL), m_Animation(NULL)
 {
 	SetTexture(NULL);
 }
 
 Object::Object(const Object *in_Object)
 {
+	m_Animation = in_Object->m_Animation->Clone();
 	m_Parent = NULL;
 	m_Sprite = in_Object->m_Sprite;
 
@@ -34,7 +47,8 @@ Object::Object(const Object *in_Object)
 
 Object::~Object()
 {
-
+	delete m_Animation;
+	m_Animation = NULL;
 }
 
 Object *Object::GetParent() const
@@ -106,6 +120,21 @@ bool Object::CheckIntersectY(const Object *in_Object) const
 void Object::Draw(sf::RenderWindow *in_RenderWindow)
 {
 	in_RenderWindow->draw(m_Sprite);
+}
+
+void Object::Update(const sf::Time &in_Time)
+{
+	if (!m_Animation)
+		return;
+
+	sf::Sprite *sprite = m_Animation->Update(in_Time);
+	if (!sprite)
+		return;
+
+	m_Sprite = *sprite;
+
+	calculateSpriteSize();
+	CalculateSpritePos();
 }
 
 sf::Vector2f Object::GetAbsolutePos() const

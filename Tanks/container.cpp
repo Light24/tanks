@@ -91,6 +91,7 @@ void Container<ObjectType>::Draw(sf::RenderWindow *in_RenderWindow)
 template <typename ObjectType>
 void Container<ObjectType>::Update(const sf::Time &in_Time)
 {
+	Widget::Update(in_Time);
 	for (size_t i = 0; i != m_WidgetsCount; ++i)
 		m_Widgets[i]->Update(in_Time);
 }

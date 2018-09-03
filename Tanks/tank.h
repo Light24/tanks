@@ -4,7 +4,7 @@
 class Tank : public GameObject
 {
 public:
-	Tank(const char *in_Buf);
+	Tank(const boost::property_tree::ptree &in_Json);
 	Tank(const Tank *in_Tank);
 	~Tank();
 

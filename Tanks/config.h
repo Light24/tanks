@@ -34,7 +34,7 @@ private:
 class ConfigManager
 {
 public:
-	bool LoadGameObjects(const char *path);
+	bool LoadGameObjects(const char *in_Path);
 	// const Object *Get_Prortype();
 	GameObject *Create_Object(Object_Subtype type) const;
 

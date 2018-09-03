@@ -4,7 +4,7 @@
 class Wall : public GameObject
 {
 public:
-	Wall(const char *in_Buf);
+	Wall(const boost::property_tree::ptree &in_Json);
 	Wall(const Wall *in_Wall);
 	~Wall();
 

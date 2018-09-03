@@ -40,6 +40,7 @@ void Button::Draw(sf::RenderWindow *in_RenderWindow)
 
 void Button::Update(const sf::Time &in_Time)
 {
+	Widget::Update(in_Time);
 }
 
 void Button::HandleEvent(const sf::Event &in_Event)

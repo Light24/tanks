@@ -1,6 +1,4 @@
-# Code modules
-/SFML/
-/boost/
+/x64/
 
 # Prerequisites
 *.d

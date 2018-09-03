@@ -1,7 +1,7 @@
 #include "Wall.h"
 
 
-Wall::Wall(const char *in_Buf) : GameObject(in_Buf)
+Wall::Wall(const boost::property_tree::ptree &in_Json) : GameObject(in_Json)
 {
 
 }

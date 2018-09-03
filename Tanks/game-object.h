@@ -64,11 +64,11 @@ const int GROUP_COMPUTER = 2;
 class GameObject : public Object
 {
 public:
-	GameObject(const char *in_Buf);
+	GameObject(const boost::property_tree::ptree &in_Json);
 	GameObject(const GameObject *in_GameObject);
 	virtual ~GameObject(void);
 
-	static const GameObject *Create(const char *in_Buf);
+	static const GameObject *Create(const boost::property_tree::ptree &in_Json);
 	virtual GameObject *Clone() const = 0;
 
 public:
@@ -96,8 +96,9 @@ public:
 
 private:
 	void calculateDirection();
+	void setDirectionImpl(const sf::Vector2f &in_Direction);
 
-	static GameObject *CreateImpl(const Object_Type in_Type, const char *in_Buf);
+	static GameObject *CreateImpl(const Object_Type in_Type, const boost::property_tree::ptree &in_Json);
 
 private:
 	ID id;

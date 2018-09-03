@@ -8,7 +8,8 @@
 
 Engine::Engine(void) : m_Size(1600, 800)
 {
-	TextureManager::GetInstance()->SetTextureDir("C:/C++/Tanks/x64/Debug/");
+	// TextureManager::GetInstance()->SetTextureDir("C:/C++/Tanks/x64/Debug/");
+	TextureManager::GetInstance()->SetTextureDir("C:/C++/Tanks/Tanks/images/");
 
 	m_Window = new sf::RenderWindow(sf::VideoMode(GetSize().x, GetSize().y), "Tanks");
 
