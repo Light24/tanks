@@ -1,11 +1,25 @@
 #include "missile.h"
 
 
-Missile::Missile()
+Missile::Missile(const boost::property_tree::ptree &in_Json) : GameObject(in_Json)
 {
 }
 
 
+Missile::Missile(const Missile *in_Tank) : GameObject(in_Tank)
+{
+}
+
 Missile::~Missile()
 {
+}
+
+GameObject *Missile::Clone() const
+{
+	return new Missile(this);
+}
+
+void Missile::OnIntersect(GameObject *in_GameObject)
+{
+
 }

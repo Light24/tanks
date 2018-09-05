@@ -35,9 +35,9 @@ Object::Object(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : m_Pos(
 
 Object::Object(const Object *in_Object)
 {
-	m_Animation = in_Object->m_Animation->Clone();
 	m_Parent = NULL;
 	m_Sprite = in_Object->m_Sprite;
+	m_Animation = in_Object->m_Animation->Clone();
 
 	SetPos(in_Object->GetPos());
 	SetSize(in_Object->GetSize());
@@ -131,6 +131,9 @@ void Object::Update(const sf::Time &in_Time)
 	if (!sprite)
 		return;
 
+	// TODO: добавить проверку
+	// if (m_Sprite == sprite)
+	// return;
 	m_Sprite = *sprite;
 
 	calculateSpriteSize();

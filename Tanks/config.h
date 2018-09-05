@@ -1,6 +1,7 @@
 #pragma once
 #include "game-object.h"
 #include "container.h"
+#include <functional>
 
 namespace Config_Parser
 {
@@ -40,6 +41,10 @@ public:
 
 	void SaveLevel(const char *in_FilePath, Container<Object> *in_Container);
 	void LoadLevel(const char *in_FilePath, Container<Object> *in_Container);
+
+public:
+	typedef std::function <bool(const GameObject *)> EnumeratorPrototypes;
+	void EnumeratePrototypes(EnumeratorPrototypes in_Enumerator);
 
 private:
 	bool saveObject(const GameObject *in_Object, std::string &out_Buf) const;

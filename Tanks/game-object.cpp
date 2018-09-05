@@ -2,6 +2,7 @@
 #include "config.h"
 #include "tank.h"
 #include "wall.h"
+#include "missile.h"
 
 #include <stdio.h>
 #include <string>
@@ -90,6 +91,9 @@ sf::Vector2f GameObject::GetDirection() const
 
 void GameObject::calculateDirection()
 {
+	if (GetMaxVelocity() == 0)
+		return;
+
 	if (m_Direction.x == 0 && m_Direction.y == 0)
 		setDirectionImpl(sf::Vector2f(1, 0));
 
@@ -168,6 +172,10 @@ GameObject *GameObject::CreateImpl(const Object_Type in_Type, const boost::prope
 
 			case Object_Type::Object_Type_Wall:
 				object = new Wall(in_Json);
+				break;
+
+			case Object_Type::Object_Type_Missile:
+				object = new Missile(in_Json);
 				break;
 		}
 	}

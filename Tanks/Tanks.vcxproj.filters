@@ -129,6 +129,9 @@
     <ClCompile Include="texture-manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="animation-manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="texture-manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="animation-manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

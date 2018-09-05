@@ -17,6 +17,7 @@ public:
 	static TextureManager *GetInstance();
 
 public:
+	const char *GetTextureDir();
 	void SetTextureDir(const char *in_TextureDir);
 
 	sf::Texture *GetTexture(const char *in_TextureName);

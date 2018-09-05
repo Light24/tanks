@@ -1,0 +1,21 @@
+{ "columns":0,
+ "margin":0,
+ "name":"wall-invulnerable",
+ "properties":
+    {
+     "health":"-1",
+     "subtype":"50",
+     "type":"1"
+    },
+ "propertytypes":
+    {
+     "health":"string",
+     "subtype":"string",
+     "type":"string"
+    },
+ "spacing":0,
+ "tilecount":0,
+ "tileheight":1,
+ "tilewidth":1,
+ "type":"tileset"
+}

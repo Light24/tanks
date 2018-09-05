@@ -18,6 +18,10 @@ TextureManager *TextureManager::GetInstance()
 	return m_Instance;
 }
 
+const char *TextureManager::GetTextureDir()
+{
+	return m_TextureDir.c_str();
+}
 
 void TextureManager::SetTextureDir(const char *in_TextureDir)
 {

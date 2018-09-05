@@ -1,5 +1,10 @@
 #include "Config.h"
 
+#include "texture-manager.h"
+#include "animation-manager.h"
+
+#include "boost/filesystem.hpp"
+
 #include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/json_parser.hpp"
 
@@ -151,41 +156,38 @@ bool File::IsFileOpened() const
 
 bool ConfigManager::LoadGameObjects(const char *in_Path)
 {
-	boost::property_tree::ptree root;
+	std::string path = TextureManager::GetInstance()->GetTextureDir();
 
-	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/green-tank.json", root);
-	const GameObject *prototype = GameObject::Create(root);
-	m_Prototypes[prototype->GetSubtype()] = prototype;
-
-	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/wall-invulnerable.json", root);
-	const GameObject *prototype2 = GameObject::Create(root);
-	m_Prototypes[prototype2->GetSubtype()] = prototype2;
-
-	boost::property_tree::read_json("C:/C++/Tanks/Tanks/images/wall.json", root);
-	const GameObject *prototype3 = GameObject::Create(root);
-	m_Prototypes[prototype3->GetSubtype()] = prototype3;
-	/*
-	File file;
-	file.Open(path, "r");
-	if (!file.IsFileOpened())
-		return false;
-
-	std::string buf;
-	while (file.ReadLine(buf) && buf.size())
+	auto currentPath = boost::filesystem::current_path().generic_string();
+	TextureManager::GetInstance()->SetTextureDir(std::string(currentPath).append("./data/game-objects/").c_str());
+	boost::filesystem::path pathToObjects(std::string(currentPath).append("./data/game-objects/").c_str());
+	for (auto it = boost::filesystem::directory_iterator(pathToObjects); it != boost::filesystem::directory_iterator(); ++it)
 	{
-		if (Config_Parser::Is_Comment_Line(buf.c_str()))
-		{
-			buf.clear();
+		if (it->path().extension() != ".json")
 			continue;
-		}
 
-		const GameObject *prototype = GameObject::Create(buf.c_str());
+		boost::property_tree::ptree pJson;
+		boost::property_tree::read_json(it->path().string(), pJson);
+
+		const GameObject *prototype = GameObject::Create(pJson);
 		m_Prototypes[prototype->GetSubtype()] = prototype;
-
-		buf.clear();
 	}
-	file.Close();*/
 
+	TextureManager::GetInstance()->SetTextureDir(std::string(currentPath).append("./data/global-animations/").c_str());
+	boost::filesystem::path pathToGlobalAnimations(std::string(currentPath).append("./data/global-animations/").c_str());
+	for (auto it = boost::filesystem::directory_iterator(pathToGlobalAnimations); it != boost::filesystem::directory_iterator(); ++it)
+	{
+		if (it->path().extension() != ".json")
+			continue;
+
+		boost::property_tree::ptree pJson;
+		boost::property_tree::read_json(it->path().string(), pJson);
+
+		Animation *animation = new Animation(pJson);
+		AnimationManager::GetInstance()->AddTemplateAnimation(animation);
+	}
+
+	TextureManager::GetInstance()->SetTextureDir(path.c_str());
 	return true;
 }
 
@@ -259,4 +261,11 @@ bool ConfigManager::loadObject(const char *in_Buf, GameObject **out_Object) cons
 	(*out_Object)->SetPos(pos);
 
 	return true;
+}
+
+void ConfigManager::EnumeratePrototypes(EnumeratorPrototypes in_Enumerator)
+{
+	for (auto it = m_Prototypes.begin(); it != m_Prototypes.end(); ++it)
+		if (in_Enumerator(it->second))
+			return;
 }

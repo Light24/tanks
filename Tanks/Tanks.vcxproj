@@ -106,7 +106,7 @@
       </PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\C++\SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\SFML\lib;$(SolutionDir)..\Boost\lib\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,6 +124,7 @@ copy "$(SolutionDir)..\SFML\bin\sfml-graphics-d-2.dll" "$(OutDir)sfml-graphics-d
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation-manager.cpp" />
     <ClCompile Include="texture-manager.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="button.cpp" />
@@ -149,6 +150,7 @@ copy "$(SolutionDir)..\SFML\bin\sfml-graphics-d-2.dll" "$(OutDir)sfml-graphics-d
     <ClCompile Include="window-editor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation-manager.h" />
     <ClInclude Include="texture-manager.h" />
     <ClInclude Include="animation.h" />
     <ClInclude Include="button.h" />

@@ -6,19 +6,18 @@ WidgetTemplates::WidgetTemplates(Engine *in_Engine, const sf::Vector2f &in_Pos, 
 {
 	m_Engine = in_Engine;
 
-	for (size_t objectNum = Object_Subtype::Object_Subtype_First; objectNum != Object_Subtype::Object_Subtype_Last; ++objectNum)
-	{
+	in_Engine->GetConfigManager()->EnumeratePrototypes([this, &in_Engine](const GameObject *in_Object) -> bool {
 		// Special object
-		if (objectNum == Object_Subtype::Object_Subtype_Invulnerable_Wall)
-			continue;
+		if (in_Object->GetSubtype() == Object_Subtype::Object_Subtype_Invulnerable_Wall)
+			return false;
 
-		objectNum = (int)(Object_Subtype) objectNum;
-		GameObject *gameObject = in_Engine->GetConfigManager()->Create_Object((Object_Subtype) objectNum);
+		GameObject *gameObject = in_Engine->GetConfigManager()->Create_Object(in_Object->GetSubtype());
 		if (!gameObject)
-			continue;
+			return false;
 
 		AddWidget(gameObject);
-	}
+		return false;
+	});
 
 	AddMoveBeginListener(PREPARE_MOVE_BEGIN_LISTENER(this, &WidgetTemplates::onMoveBegin));
 }

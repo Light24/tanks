@@ -9,6 +9,16 @@ enum Animation_Type
 	Bottom,
 	Left,
 	Right,
+	Fire
+};
+
+struct AnimationFrame
+{
+	AnimationFrame(sf::Sprite *in_Sprite, float in_Timeout) : timeout(in_Timeout) { sprite.reset(in_Sprite); }
+	~AnimationFrame() {}
+
+	std::shared_ptr<sf::Sprite> sprite;
+	float timeout;
 };
 
 class Animation
@@ -25,6 +35,13 @@ public:
 	void Draw(sf::RenderWindow *in_RenderWindow);
 	sf::Sprite *Update(const sf::Time &in_Time);
 
+	bool IsAnimationEnd();
+
+	bool HasAnimationType(const Animation_Type in_AnimationType) const;
+
+private:
+	const AnimationFrame *getAnimationFrame() const;
+
 private:
 	struct PlayingAnimation
 	{
@@ -33,15 +50,6 @@ private:
 		float passedTime;
 	};
 	PlayingAnimation m_PlayingAnimation;
-
-	struct AnimationFrame
-	{
-		AnimationFrame(sf::Sprite *in_Sprite, float in_Timeout) : sprite(in_Sprite), timeout(in_Timeout) {}
-		~AnimationFrame() { delete sprite; sprite = NULL; }
-
-		sf::Sprite *sprite;
-		float timeout;
-	};
 
 	// TODO: сделать через shared ptr
 	std::map<Animation_Type, std::vector<AnimationFrame>> m_Animations;

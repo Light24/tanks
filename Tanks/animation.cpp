@@ -1,11 +1,17 @@
 #include "Animation.h"
 #include "texture-manager.h"
 
+#include "animation-manager.h"
+
+#define ANIMATION_INFITY 0
+
 Animation_Type getAnimationTypeByName(const std::string &in_AnimationName)
 {
 	std::string animationNameLower(in_AnimationName);
 	std::transform(in_AnimationName.begin(), in_AnimationName.end(), animationNameLower.begin(), ::tolower);
 
+	if (animationNameLower == "idle")
+		return Animation_Type::Idle;
 	if (animationNameLower == "left")
 		return Animation_Type::Left;
 	if (animationNameLower == "right")
@@ -14,6 +20,8 @@ Animation_Type getAnimationTypeByName(const std::string &in_AnimationName)
 		return Animation_Type::Top;
 	if (animationNameLower == "bottom")
 		return Animation_Type::Bottom;
+	if (animationNameLower == "fire")
+		return Animation_Type::Fire;
 
 	return Animation_Type::Idle;
 }
@@ -31,7 +39,7 @@ Animation::Animation(const boost::property_tree::ptree &in_Json)
 	{
 		if (!tileProperties.get_child_optional(it->first))
 		{
-			throw "ERROR! skip image";
+			// throw "ERROR! skip image";
 			continue;
 		}
 
@@ -72,6 +80,9 @@ void Animation::SetAnimationType(Animation_Type in_AnimationType)
 
 void Animation::Draw(sf::RenderWindow *in_RenderWindow)
 {
+	if (IsAnimationEnd())
+		return;
+
 	const std::vector<AnimationFrame> &animationFrames = m_Animations[m_PlayingAnimation.animationType];
 	const AnimationFrame &animationFrame = animationFrames[m_PlayingAnimation.frameNum];
 	in_RenderWindow->draw(*animationFrame.sprite);
@@ -79,25 +90,71 @@ void Animation::Draw(sf::RenderWindow *in_RenderWindow)
 
 sf::Sprite *Animation::Update(const sf::Time &in_Time)
 {
-	if (m_Animations.find(m_PlayingAnimation.animationType) == m_Animations.end())
+	const AnimationFrame *animationFrame = getAnimationFrame();
+	if (!animationFrame)
 		return NULL;
 
-	const std::vector<AnimationFrame> &animationFrames = m_Animations[m_PlayingAnimation.animationType];
-	if (!animationFrames.size())
-		return NULL;
-
-	const AnimationFrame &animationFrame = animationFrames[m_PlayingAnimation.frameNum];
-	if (!animationFrame.timeout)
-		return animationFrame.sprite;
+	if (animationFrame->timeout == ANIMATION_INFITY)
+		return &(*animationFrame->sprite);
 
 	m_PlayingAnimation.passedTime += in_Time.asMilliseconds();
-	if (animationFrame.timeout < m_PlayingAnimation.passedTime)
-		return animationFrame.sprite;
+	if (animationFrame->timeout < m_PlayingAnimation.passedTime)
+		return &(*animationFrame->sprite);
 
-	m_PlayingAnimation.passedTime = 0;
-	m_PlayingAnimation.frameNum += 1;
-	if (m_PlayingAnimation.frameNum >= animationFrames.size())
-		m_PlayingAnimation.frameNum = 0;
+	// m_PlayingAnimation.passedTime = 0;
 
-	return animationFrame.sprite;
+	return &(*animationFrame->sprite);
+}
+
+bool Animation::IsAnimationEnd()
+{
+	const AnimationFrame *animationFrame = getAnimationFrame();
+	if (!animationFrame)
+		return false;
+
+	if (animationFrame->timeout != ANIMATION_INFITY)
+		if (m_PlayingAnimation.passedTime >= animationFrame->timeout)
+			return true;
+
+	return false;
+}
+
+bool Animation::HasAnimationType(const Animation_Type in_AnimationType) const
+{
+	for (auto it = m_Animations.begin(); it != m_Animations.end(); ++it)
+		if (it->first == in_AnimationType)
+			return true;
+
+	return false;
+}
+
+const AnimationFrame *Animation::getAnimationFrame() const
+{
+	auto animationFrames = m_Animations.find(m_PlayingAnimation.animationType);
+	if (animationFrames == m_Animations.end())
+	{
+		auto animation = AnimationManager::GetInstance()->GetTemplateAnimation(m_PlayingAnimation.animationType);
+		if (animation)
+		{
+			animationFrames = animation->m_Animations.find(m_PlayingAnimation.animationType);
+
+			if (animationFrames == animation->m_Animations.end())
+			{
+				animationFrames = m_Animations.find(Animation_Type::Idle);
+				if (animationFrames == m_Animations.end())
+					return NULL;
+			}
+		}
+		else
+		{
+			animationFrames = m_Animations.find(Animation_Type::Idle);
+			if (animationFrames == m_Animations.end())
+				return NULL;
+		}
+	}
+
+	if (!animationFrames->second.size())
+		return NULL;
+
+	return &animationFrames->second[m_PlayingAnimation.frameNum];
 }

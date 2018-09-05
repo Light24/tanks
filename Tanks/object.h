@@ -48,6 +48,7 @@ private:
 	sf::Vector2f m_Pos;
 	sf::Vector2f m_Size;
 
+	// TODO: передать на указатель
 	sf::Sprite m_Sprite;
 	Animation *m_Animation;
 };
