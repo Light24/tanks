@@ -132,6 +132,9 @@
     <ClCompile Include="animation-manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="artificial-intelligence.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="animation-manager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="artificial-intelligence.h">
+      <Filter>GameWindow\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

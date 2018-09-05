@@ -4,6 +4,8 @@
 #include "widget-game.h"
 #include "engine.h"
 
+#include "artificial-intelligence.h"
+
 class WidgetGame : public Container<Object>
 {
 public:
@@ -23,5 +25,6 @@ private:
 	GameObject *GetNearestIntersectY(const GameObject *in_Object, const sf::Time in_Time) const;
 
 private:
+	ArtificialIntelligence in_ArtificialIntelligence;
 	Player *m_Player;
 };

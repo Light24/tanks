@@ -80,6 +80,14 @@ sf::Vector2f GameObject::GetVelocity() const
 void GameObject::SetVelocity(const sf::Vector2f &in_Velocity)
 {
 	m_Velocity = in_Velocity;
+	if (fabs(m_Velocity.x) > m_MaxVelocity)
+		m_Velocity.x = (m_Velocity.x > 0) ? m_MaxVelocity : -m_MaxVelocity;
+	if (fabs(m_Velocity.y) > m_MaxVelocity)
+		m_Velocity.y = (m_Velocity.y > 0) ? m_MaxVelocity : -m_MaxVelocity;
+
+	m_Velocity.x = std::max(m_Velocity.x, std::min(m_Velocity.x, m_MaxVelocity));
+	m_Velocity.y = std::max(m_Velocity.y, std::min(m_Velocity.y, m_MaxVelocity));
+
 	calculateDirection();
 }
 

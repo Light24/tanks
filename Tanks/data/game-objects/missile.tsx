@@ -7,7 +7,7 @@
   <property name="height" value="10"/>
   <property name="subtype" value="100"/>
   <property name="type" value="2"/>
-  <property name="velocity" value="0.5"/>
+  <property name="velocity" value="0.8"/>
   <property name="width" value="10"/>
  </properties>
  <tile id="0">

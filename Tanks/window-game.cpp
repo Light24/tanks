@@ -5,7 +5,7 @@ WindowGame::WindowGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::
 {
 	m_Engine = in_Engine;
 
-	WidgetGame *widgetGame = new WidgetGame(in_Engine, sf::Vector2f(0, 0), sf::Vector2f(in_Engine->GetSize().x, 600));
+	WidgetGame *widgetGame = new WidgetGame(in_Engine, sf::Vector2f(in_Engine->GetSize().x * 0.1, 0), sf::Vector2f(in_Engine->GetSize().x - in_Engine->GetSize().x * 0.2, in_Engine->GetSize().y));
 	AddWidget(widgetGame);
 }
 

@@ -4,10 +4,10 @@
  <properties>
   <property name="damage" value="0"/>
   <property name="health" value="1"/>
-  <property name="height" value="40"/>
+  <property name="height" value="46"/>
   <property name="subtype" value="51"/>
   <property name="type" value="1"/>
-  <property name="width" value="40"/>
+  <property name="width" value="46"/>
  </properties>
  <tile id="0">
   <properties>

@@ -21,6 +21,11 @@ GameObject *Wall::Clone() const
 	return new Wall(this);
 }
 
+Object_Type Wall::GetType() const
+{
+	return Object_Type::Object_Type_Wall;
+}
+
 void Wall::OnIntersect(GameObject *in_GameObject)
 {
 

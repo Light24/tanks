@@ -83,6 +83,8 @@ void WidgetGame::Update(const sf::Time &in_Time)
 			gameObject->OnIntersect(nearestY);
 	}
 
+	in_ArtificialIntelligence.Update(this, in_Time);
+
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
 	{
 		GameObject *gameObject = (GameObject *)GetWidget(i);

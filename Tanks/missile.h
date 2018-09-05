@@ -8,8 +8,10 @@ public:
 	Missile(const Missile *in_Tank);
 	~Missile();
 
-public:
 	GameObject *Clone() const;
+
+public:
+	virtual Object_Type GetType() const override;
 
 	void OnIntersect(GameObject *in_GameObject);
 };

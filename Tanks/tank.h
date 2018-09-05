@@ -11,6 +11,8 @@ public:
 	virtual GameObject *Clone() const override;
 
 public:
+	virtual Object_Type GetType() const override;
+
 	void Fire();
 
 public:

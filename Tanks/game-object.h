@@ -82,6 +82,8 @@ public:
 	size_t GetGroup() const;
 	void SetGroup(size_t in_Group);
 
+	virtual Object_Type GetType() const = 0;
+
 	void SetSubtype(size_t in_Subtype);
 	Object_Subtype GetSubtype() const;
 
@@ -97,6 +99,9 @@ public:
 
 	bool IsAlive() const;
 	bool IsNeedRemove() const;
+
+public:
+	void SetOnObjectDestroy();
 
 private:
 	void calculateDirection();

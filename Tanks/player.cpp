@@ -4,6 +4,7 @@
 
 Player::Player(GameObject *in_Object) : m_Object(in_Object)
 {
+	in_Object->SetGroup(GROUP_PLAYER);
 }
 
 
