@@ -13,7 +13,7 @@ Engine::Engine(void) : m_Size(1600, 800)
 
 	m_Window = new sf::RenderWindow(sf::VideoMode(GetSize().x, GetSize().y), "Tanks");
 
-	m_ConfigManager.LoadGameObjects("objects.txt");
+	GetConfigManager()->LoadGameObjects("objects.txt");
 }
 
 Engine::~Engine(void)
@@ -126,7 +126,7 @@ void Engine::SetSize(const sf::Vector2f &in_Size)
 
 ConfigManager *Engine::GetConfigManager()
 {
-	return &m_ConfigManager;
+	return ConfigManager::GetInstance();
 }
 
 void Engine::Close()

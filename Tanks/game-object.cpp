@@ -148,9 +148,20 @@ Object_Subtype GameObject::GetSubtype() const
 	return m_Subtype;
 }
 
-int GameObject::GetHealth() const
+size_t GameObject::GetHealth() const
 {
 	return m_Health;
+}
+
+void GameObject::SetHealth(int in_Health)
+{
+	if (m_Health == 0)
+		return;
+
+	m_Health = in_Health;
+
+	if (m_Health == 0)
+		GetAnimation()->SetAnimationType(Animation_Type::Explosion);
 }
 
 const GameObject *GameObject::Create(const boost::property_tree::ptree &in_Json)
@@ -193,6 +204,9 @@ void GameObject::Update(const sf::Time &in_Time)
 
 bool GameObject::CheckIntersectX(const GameObject *in_Object, const sf::Time in_Timeout) const
 {
+	if (!IsAlive() || !in_Object->IsAlive())
+		return false;
+
 	if (fabs((GetPos().y + GetSize().y / 2) - (in_Object->GetPos().y + in_Object->GetSize().y / 2)) >= GetSize().y / 2 + in_Object->GetSize().y / 2)
 		return false;
 
@@ -206,6 +220,9 @@ bool GameObject::CheckIntersectX(const GameObject *in_Object, const sf::Time in_
 
 bool GameObject::CheckIntersectY(const GameObject *in_Object, const sf::Time in_Timeout) const
 {
+	if (!IsAlive() || !in_Object->IsAlive())
+		return false;
+
 	if (fabs((GetPos().x + GetSize().x / 2) - (in_Object->GetPos().x + in_Object->GetSize().x / 2)) >= GetSize().x / 2 + in_Object->GetSize().x / 2)
 		return false;
 
@@ -217,3 +234,18 @@ bool GameObject::CheckIntersectY(const GameObject *in_Object, const sf::Time in_
 	return false;
 }
 
+
+bool GameObject::IsAlive() const
+{
+	return (GetHealth() > 0);
+}
+
+bool GameObject::IsNeedRemove() const
+{
+	if (IsAlive())
+		return false;
+	if (!GetAnimation()->IsAnimationEnd())
+		return false;
+
+	return true;
+}

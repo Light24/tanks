@@ -37,6 +37,5 @@ private:
 	sf::RenderWindow *m_Window;
 	std::vector<Container<Widget> *> m_Windows;
 	std::vector<Object *> m_DestroyableObjects;
-	ConfigManager m_ConfigManager;
 };
 

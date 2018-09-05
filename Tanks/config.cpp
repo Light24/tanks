@@ -153,6 +153,19 @@ bool File::IsFileOpened() const
 	return m_Handle;
 }
 
+ConfigManager::ConfigManager()
+{
+
+}
+
+ConfigManager *ConfigManager::m_Instance;
+ConfigManager *ConfigManager::GetInstance()
+{
+	if (!m_Instance)
+		m_Instance = new ConfigManager();
+
+	return m_Instance;
+}
 
 bool ConfigManager::LoadGameObjects(const char *in_Path)
 {

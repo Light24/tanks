@@ -7,7 +7,7 @@ WidgetGame::WidgetGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::
 
 	createWorldWalls(configManager);
 
-	in_Engine->GetConfigManager()->LoadLevel("level_0.lvl", this);
+	in_Engine->GetConfigManager()->LoadLevel("data/levels/level_0.lvl", this);
 
 	GameObject *playerOwnedObject(NULL);
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
@@ -58,6 +58,7 @@ void WidgetGame::Draw(sf::RenderWindow *in_RenderWindow)
 
 void WidgetGame::Update(const sf::Time &in_Time)
 {
+	Container::Update(in_Time);
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
 	{
 		GameObject *gameObject = (GameObject *) GetWidget(i);
@@ -75,9 +76,22 @@ void WidgetGame::Update(const sf::Time &in_Time)
 		}
 
 		gameObject->SetPos(sf::Vector2f(gameObject->GetPos().x + gameObject->GetVelocity().x * in_Time.asMilliseconds(), gameObject->GetPos().y + gameObject->GetVelocity().y * in_Time.asMilliseconds()));
+
+		if (nearestX)
+			gameObject->OnIntersect(nearestX);
+		if (nearestY)
+			gameObject->OnIntersect(nearestY);
 	}
 
-	Container::Update(in_Time);
+	for (size_t i = 0; i != GetWidgetsCount(); ++i)
+	{
+		GameObject *gameObject = (GameObject *)GetWidget(i);
+		if (!gameObject->IsNeedRemove())
+			continue;
+
+		RemoveWidget(gameObject);
+		--i;
+	}
 }
 
 void WidgetGame::HandleEvent(const sf::Event &in_Event)

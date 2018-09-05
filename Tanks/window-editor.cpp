@@ -161,13 +161,13 @@ void WindowEditor::onMovingEndListener(Object *in_Object, const sf::Event &in_Ev
 void WindowEditor::loadLevel()
 {
 	// Container<GameObject> *container = dynamic_cast<Container<GameObject> *>(m_WidgetGameEditor);
-	m_Engine->GetConfigManager()->LoadLevel("level_0.lvl", m_WidgetGameEditor);
+	m_Engine->GetConfigManager()->LoadLevel("data/levels/level_0.lvl", m_WidgetGameEditor);
 }
 
 void WindowEditor::saveLevel()
 {
 	// Container<GameObject> *container = dynamic_cast<Container<GameObject> *>(m_WidgetGameEditor);
-	m_Engine->GetConfigManager()->SaveLevel("level_0.lvl", m_WidgetGameEditor);
+	m_Engine->GetConfigManager()->SaveLevel("data/levels/level_0.lvl", m_WidgetGameEditor);
 }
 
 

@@ -20,8 +20,8 @@ Animation_Type getAnimationTypeByName(const std::string &in_AnimationName)
 		return Animation_Type::Top;
 	if (animationNameLower == "bottom")
 		return Animation_Type::Bottom;
-	if (animationNameLower == "fire")
-		return Animation_Type::Fire;
+	if (animationNameLower == "explosion")
+		return Animation_Type::Explosion;
 
 	return Animation_Type::Idle;
 }
@@ -34,22 +34,43 @@ Animation::Animation(const boost::property_tree::ptree &in_Json)
 		return;
 
 	boost::property_tree::ptree tiles = *tilesOptional;
+	// подготовим картинки
+	std::map<std::string, std::shared_ptr<sf::Sprite>> images;
+	for (auto it = tiles.begin(); it != tiles.end(); ++it)
+	{
+		const std::string &imagePath = it->second.get<std::string>("image");
+		sf::Texture *texture = TextureManager::GetInstance()->GetTexture(imagePath.c_str());
+
+		images.emplace(it->first, new sf::Sprite(*texture));
+	}
+
 	boost::property_tree::ptree tileProperties = in_Json.get_child("tileproperties");
 	for (auto it = tiles.begin(); it != tiles.end(); ++it)
 	{
-		if (!tileProperties.get_child_optional(it->first))
+		auto properties = tileProperties.get_child_optional(it->first);
+		if (!properties)
+			continue;
+
+		const std::string &animationName = properties->get<std::string>("animation");
+		Animation_Type animationType = getAnimationTypeByName(animationName);
+
+		auto animationJson = it->second.get_child_optional("animation");
+		if (!animationJson)
 		{
-			// throw "ERROR! skip image";
+			std::string tileid = it->first;
+			size_t duration = 0;
+
+			m_Animations[animationType].emplace_back(images[tileid], duration);
 			continue;
 		}
 
-		const std::string &imagePath = it->second.get<std::string>("image");
-		const std::string &animationName = tileProperties.get_child(it->first).get<std::string>("animation");
+		for (auto itAnimation = animationJson->begin(); itAnimation != animationJson->end(); ++itAnimation)
+		{
+			std::string tileid = itAnimation->second.get<std::string>("tileid");
+			size_t duration = itAnimation->second.get<size_t>("duration");
 
-		sf::Texture *texture = TextureManager::GetInstance()->GetTexture(imagePath.c_str());
-
-		Animation_Type animationType = getAnimationTypeByName(animationName);
-		m_Animations[animationType].emplace_back(new sf::Sprite(*texture), 0);
+			m_Animations[animationType].emplace_back(images[tileid], duration);
+		}
 	}
 
 	SetAnimationType(Animation_Type::Idle);
@@ -98,10 +119,11 @@ sf::Sprite *Animation::Update(const sf::Time &in_Time)
 		return &(*animationFrame->sprite);
 
 	m_PlayingAnimation.passedTime += in_Time.asMilliseconds();
-	if (animationFrame->timeout < m_PlayingAnimation.passedTime)
+	if (m_PlayingAnimation.passedTime < animationFrame->timeout)
 		return &(*animationFrame->sprite);
 
-	// m_PlayingAnimation.passedTime = 0;
+	m_PlayingAnimation.passedTime = 0;
+	m_PlayingAnimation.frameNum += 1;
 
 	return &(*animationFrame->sprite);
 }
@@ -110,11 +132,7 @@ bool Animation::IsAnimationEnd()
 {
 	const AnimationFrame *animationFrame = getAnimationFrame();
 	if (!animationFrame)
-		return false;
-
-	if (animationFrame->timeout != ANIMATION_INFITY)
-		if (m_PlayingAnimation.passedTime >= animationFrame->timeout)
-			return true;
+		return true;
 
 	return false;
 }
@@ -154,6 +172,9 @@ const AnimationFrame *Animation::getAnimationFrame() const
 	}
 
 	if (!animationFrames->second.size())
+		return NULL;
+
+	if (m_PlayingAnimation.frameNum >= animationFrames->second.size())
 		return NULL;
 
 	return &animationFrames->second[m_PlayingAnimation.frameNum];

@@ -1,9 +1,0 @@
-#name:type:width:height:damage:health:velocity:textureName
-#Player
-0:30:30:1:5:0.25:tank.png
-#Invulnerable Wall
-50:0:0:0:-1:0:empty
-#Wall
-51:40:40:0:3:0:wall.png
-#Enemy Tank:100:30:30:1:1:0.15:tank.png
-#Wall:20:2:2:0:1

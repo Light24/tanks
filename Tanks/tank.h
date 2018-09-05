@@ -11,6 +11,9 @@ public:
 	virtual GameObject *Clone() const override;
 
 public:
+	void Fire();
+
+public:
 	virtual void OnIntersect(GameObject *in_GameObject) override;
 
 private:

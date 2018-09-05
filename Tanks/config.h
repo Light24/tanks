@@ -34,6 +34,14 @@ private:
 
 class ConfigManager
 {
+private:
+	ConfigManager();
+	ConfigManager(const ConfigManager&) = delete;
+	ConfigManager(const ConfigManager&&) = delete;
+
+public:
+	static ConfigManager *GetInstance();
+
 public:
 	bool LoadGameObjects(const char *in_Path);
 	// const Object *Get_Prortype();
@@ -51,6 +59,7 @@ private:
 	bool loadObject(const char *in_Buf, GameObject **out_Object) const;
 
 private:
-	std::map<Object_Subtype, const GameObject *> m_Prototypes;
+	static ConfigManager *m_Instance;
 
+	std::map<Object_Subtype, const GameObject *> m_Prototypes;
 };

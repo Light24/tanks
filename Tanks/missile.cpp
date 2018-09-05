@@ -21,5 +21,6 @@ GameObject *Missile::Clone() const
 
 void Missile::OnIntersect(GameObject *in_GameObject)
 {
-
+	SetHealth(GetHealth() - 1);
+	in_GameObject->SetHealth(in_GameObject->GetHealth() - 1);
 }

@@ -9,12 +9,12 @@ enum Animation_Type
 	Bottom,
 	Left,
 	Right,
-	Fire
+	Explosion
 };
 
 struct AnimationFrame
 {
-	AnimationFrame(sf::Sprite *in_Sprite, float in_Timeout) : timeout(in_Timeout) { sprite.reset(in_Sprite); }
+	AnimationFrame(const std::shared_ptr<sf::Sprite> &in_Sprite, float in_Timeout) : timeout(in_Timeout), sprite(in_Sprite) {}
 	~AnimationFrame() {}
 
 	std::shared_ptr<sf::Sprite> sprite;

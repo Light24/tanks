@@ -85,7 +85,8 @@ public:
 	void SetSubtype(size_t in_Subtype);
 	Object_Subtype GetSubtype() const;
 
-	int GetHealth() const;
+	size_t GetHealth() const;
+	void SetHealth(int in_Health);
 
 	virtual void OnIntersect(GameObject *in_GameObject) = 0;
 
@@ -93,6 +94,9 @@ public:
 	bool CheckIntersectY(const GameObject *in_Object, const sf::Time in_Timeout) const;
 
 	virtual void Update(const sf::Time &in_Time) override;
+
+	bool IsAlive() const;
+	bool IsNeedRemove() const;
 
 private:
 	void calculateDirection();
