@@ -3,7 +3,6 @@
 #include "SFML/graphics.hpp"
 #include "game-object.h"
 
-template <typename ObjectType>
 class Container : public Widget
 {
 public:
@@ -13,9 +12,9 @@ public:
 public:
 	virtual void SetPos(const sf::Vector2f &in_Pos) override;
 
-	virtual void AddWidget(ObjectType *in_Widget);
-	bool RemoveWidget(ObjectType *in_Widget, bool in_Deleting = true);
-	ObjectType *GetWidget(const size_t in_Num) const;
+	virtual void AddWidget(Object *in_Widget);
+	bool RemoveWidget(Object *in_Widget, bool in_Deleting = true);
+	Object *GetWidget(const size_t in_Num) const;
 	size_t GetWidgetsCount() const;
 
 public:
@@ -25,8 +24,5 @@ public:
 
 private:
 	size_t m_WidgetsCount;
-	ObjectType **m_Widgets;
+	Object **m_Widgets;
 };
-template class Container<Object>;
-template class Container<Widget>;
-template class Container<GameObject>;

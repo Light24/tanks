@@ -22,9 +22,9 @@ public:
 
 	ConfigManager *GetConfigManager();
 
-	void AddWindow(Window<Widget> *in_Window);
-	void RemoveWindow(Container<Widget> *in_Window);
-	void ChangeWindow(Window<Widget> *in_Window);
+	void AddWindow(Window *in_Window);
+	void RemoveWindow(Container *in_Window);
+	void ChangeWindow(Window *in_Window);
 
 	void Close();
 
@@ -35,7 +35,7 @@ private:
 	sf::Vector2f m_Size;
 
 	sf::RenderWindow *m_Window;
-	std::vector<Container<Widget> *> m_Windows;
+	std::vector<Container *> m_Windows;
 	std::vector<Object *> m_DestroyableObjects;
 };
 

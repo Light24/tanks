@@ -217,7 +217,7 @@ GameObject *ConfigManager::Create_Object(Object_Subtype in_Subtype) const
 }
 
 
-void ConfigManager::SaveLevel(const char *in_FilePath, Container<Object> *in_Container)
+void ConfigManager::SaveLevel(const char *in_FilePath, Container *in_Container)
 {
 	File file;
 	file.Open(in_FilePath, "w");
@@ -232,7 +232,7 @@ void ConfigManager::SaveLevel(const char *in_FilePath, Container<Object> *in_Con
 	file.Close();
 }
 
-void ConfigManager::LoadLevel(const char *in_FilePath, Container<Object> *in_Container)
+void ConfigManager::LoadLevel(const char *in_FilePath, Container *in_Container)
 {
 	File file;
 	file.Open(in_FilePath, "r");

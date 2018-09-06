@@ -29,7 +29,7 @@ void Tank::Fire()
 	missile->SetPos(sf::Vector2f((GetPos().x + GetSize().x / 2) - (GetSize().x / 2 * GetDirection().x) - missile->GetSize().x / 2, (GetPos().y + GetSize().y / 2) - (GetSize().y / 2 * GetDirection().y) - missile->GetSize().y / 2));
 	missile->SetVelocity(sf::Vector2f(missile->GetMaxVelocity() * GetDirection().x, missile->GetMaxVelocity() * GetDirection().y));
 	missile->SetGroup(GetGroup());
-	dynamic_cast<Container<Object> *>(GetParent())->AddWidget(missile);
+	dynamic_cast<Container *>(GetParent())->AddWidget(missile);
 }
 
 Object_Type Tank::GetType() const

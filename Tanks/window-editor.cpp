@@ -2,7 +2,7 @@
 #include "button.h"
 #include "widget-illuminated-object.h"
 
-WindowEditor::WindowEditor(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Window<Widget>(in_Pos, in_Size)
+WindowEditor::WindowEditor(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Window(in_Pos, in_Size)
 {
 	m_Engine = in_Engine;
 	m_IsShiftPressed = false;
@@ -52,7 +52,7 @@ void WindowEditor::HandleEvent(const sf::Event &in_Event)
 
 Object *WindowEditor::onMoveBeginListener(Object *in_Object, const sf::Event &in_Event)
 {
-	Container<Object> *container = dynamic_cast<Container<Object> *>(in_Object->GetParent());
+	Container *container = dynamic_cast<Container *>(in_Object->GetParent());
 
 	// найдем игрока
 	if (dynamic_cast<GameObject *>(in_Object)->GetSubtype() == Object_Subtype_Player)
@@ -146,7 +146,7 @@ void WindowEditor::onMovingEndListener(Object *in_Object, const sf::Event &in_Ev
 	Object *object = dynamic_cast<WidgetIlluminatedObject *>(in_Object)->GetOwnedObject();
 	object->SetParent(NULL);
 
-	Container<Object> *container = dynamic_cast<Container<Object> *>(in_Object->GetParent());
+	Container *container = dynamic_cast<Container *>(in_Object->GetParent());
 	container->RemoveWidget(in_Object);
 	if (m_WidgetTemplates->CheckIntersect(sf::Vector2f(in_Event.mouseButton.x, in_Event.mouseButton.y)))
 	{

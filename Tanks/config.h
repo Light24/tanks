@@ -47,8 +47,8 @@ public:
 	// const Object *Get_Prortype();
 	GameObject *Create_Object(Object_Subtype type) const;
 
-	void SaveLevel(const char *in_FilePath, Container<Object> *in_Container);
-	void LoadLevel(const char *in_FilePath, Container<Object> *in_Container);
+	void SaveLevel(const char *in_FilePath, Container *in_Container);
+	void LoadLevel(const char *in_FilePath, Container *in_Container);
 
 public:
 	typedef std::function <bool(const GameObject *)> EnumeratorPrototypes;

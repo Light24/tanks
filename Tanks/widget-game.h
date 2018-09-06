@@ -6,7 +6,7 @@
 
 #include "artificial-intelligence.h"
 
-class WidgetGame : public Container<Object>
+class WidgetGame : public Container
 {
 public:
 	WidgetGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size);

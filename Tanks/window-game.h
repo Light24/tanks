@@ -4,7 +4,7 @@
 #include "engine.h"
 
 class Engine;
-class WindowGame : public Window<Widget>
+class WindowGame : public Window
 {
 public:
 	WindowGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size);

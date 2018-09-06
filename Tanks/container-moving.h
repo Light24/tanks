@@ -7,8 +7,7 @@
 #define PREPARE_MOVE_BEGIN_LISTENER(in_Pointer, in_Method) [in_Pointer] (Object *in_Object, const sf::Event &in_Event) -> Object * { return (in_Pointer->*in_Method)(in_Object, in_Event); }
 #define PREPARE_MOVE_LISTENER(in_Pointer, in_Method) [in_Pointer] (Object *in_Object, const sf::Event &in_Event) -> void { (in_Pointer->*in_Method)(in_Object, in_Event); }
 
-template <typename ObjectType>
-class ContainerMoving : public Container<ObjectType>
+class ContainerMoving : public Container
 {
 public:
 	ContainerMoving(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size);
@@ -23,11 +22,10 @@ public:
 	virtual void HandleEvent(const sf::Event &in_Event) override;
 
 private:
-	ObjectType *m_MovableWidget;
+	Object *m_MovableWidget;
 	sf::Vector2f m_MovableWidgetOffset;
 
 	std::vector<MoveBeginListener> m_MoveBeginListeners;
 	std::vector<MoveListener> m_MovingListeners;
 	std::vector<MoveListener> m_MoveEndListeners;
 };
-template class ContainerMoving<Object>;

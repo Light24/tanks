@@ -9,7 +9,7 @@
 #define BUTTON_SIZE sf::Vector2f(120, 40)
 #define BUTTON_OFFSET_Y 10
 
-MenuWindow::MenuWindow(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Window<Widget>(in_Pos, in_Size)
+MenuWindow::MenuWindow(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Window(in_Pos, in_Size)
 {
 	m_Engine = in_Engine;
 

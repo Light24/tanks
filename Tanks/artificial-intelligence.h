@@ -9,5 +9,5 @@ public:
 	~ArtificialIntelligence();
 
 public:
-	void Update(Container<Object> *in_Container, const sf::Time &in_Time);
+	void Update(Container *in_Container, const sf::Time &in_Time);
 };

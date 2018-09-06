@@ -90,11 +90,11 @@ void Engine::Draw()
 
 void Engine::Execute()
 {
-	/*Window<Widget> *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
+	/*Window *gameWindow = new WindowGame(this, sf::Vector2f(0, 0), GetSize());
 	gameWindow->SetTexture("background.png");
 	ChangeWindow(gameWindow);*/
 
-	Window<Widget> *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
+	Window *menuWindow = new MenuWindow(this, sf::Vector2f(0, 0), GetSize());
 	menuWindow->SetTexture("background.png");
 	AddWindow(menuWindow);
 
@@ -134,12 +134,12 @@ void Engine::Close()
 	m_Window->close();
 }
 
-void Engine::AddWindow(Window<Widget> *in_Window)
+void Engine::AddWindow(Window *in_Window)
 {
 	m_Windows.push_back(in_Window);
 }
 
-void Engine::RemoveWindow(Container<Widget> *in_Window)
+void Engine::RemoveWindow(Container *in_Window)
 {
 	int num = -1;
 	for (size_t i = 0; i != m_Windows.size(); ++i)
@@ -160,7 +160,7 @@ void Engine::RemoveWindow(Container<Widget> *in_Window)
 	m_DestroyableObjects.push_back(in_Window);
 }
 
-void Engine::ChangeWindow(Window<Widget> *in_Window)
+void Engine::ChangeWindow(Window *in_Window)
 {
 	if (m_Windows.size())
 		RemoveWindow(m_Windows[m_Windows.size() - 1]);

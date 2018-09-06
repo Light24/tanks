@@ -3,7 +3,7 @@
 #include "engine.h"
 #include "button.h"
 
-class MenuWindow : public Window<Widget>
+class MenuWindow : public Window
 {
 public:
 	MenuWindow(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size);

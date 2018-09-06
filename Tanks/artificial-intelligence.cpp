@@ -12,7 +12,7 @@ ArtificialIntelligence::~ArtificialIntelligence()
 }
 
 
-void ArtificialIntelligence::Update(Container<Object> *in_Container, const sf::Time &in_Time)
+void ArtificialIntelligence::Update(Container *in_Container, const sf::Time &in_Time)
 {
 	for (size_t i = 0; i != in_Container->GetWidgetsCount(); ++i)
 	{

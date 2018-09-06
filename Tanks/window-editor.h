@@ -4,7 +4,7 @@
 #include "widget-templates.h"
 #include "widget-game-editor.h"
 
-class WindowEditor : public Window<Widget>
+class WindowEditor : public Window
 {
 public:
 	WindowEditor(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size);

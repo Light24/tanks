@@ -1,46 +1,40 @@
 #include "container-moving.h"
 
 
-template <typename ObjectType>
-ContainerMoving<ObjectType>::ContainerMoving(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Container(in_Pos, in_Size)
+ContainerMoving::ContainerMoving(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Container(in_Pos, in_Size)
 {
 	m_MovableWidget = NULL;
 }
 
-template <typename ObjectType>
-ContainerMoving<ObjectType>::~ContainerMoving()
+ContainerMoving::~ContainerMoving()
 {
 }
 
-template <typename ObjectType>
-void ContainerMoving<ObjectType>::AddMoveBeginListener(MoveBeginListener in_MoveListener)
+void ContainerMoving::AddMoveBeginListener(MoveBeginListener in_MoveListener)
 {
 	m_MoveBeginListeners.push_back(in_MoveListener);
 }
 
-template <typename ObjectType>
-void ContainerMoving<ObjectType>::AddMovingListener(MoveListener in_MoveListener)
+void ContainerMoving::AddMovingListener(MoveListener in_MoveListener)
 {
 	m_MovingListeners.push_back(in_MoveListener);
 }
 
-template <typename ObjectType>
-void ContainerMoving<ObjectType>::AddMoveEndListener(MoveListener in_MoveListener)
+void ContainerMoving::AddMoveEndListener(MoveListener in_MoveListener)
 {
 	m_MoveEndListeners.push_back(in_MoveListener);
 }
 
-template <typename ObjectType>
-void ContainerMoving<ObjectType>::HandleEvent(const sf::Event &in_Event)
+void ContainerMoving::HandleEvent(const sf::Event &in_Event)
 {
 	switch (in_Event.type)
 	{
 		case sf::Event::MouseButtonPressed:
 		{
-			ObjectType *selectedObject(NULL);
+			Object *selectedObject(NULL);
 			for (size_t i = 0; i != GetWidgetsCount(); ++i)
 			{
-				ObjectType *object = GetWidget(i);
+				Object *object = GetWidget(i);
 				if (object->CheckIntersect(sf::Vector2f(in_Event.mouseButton.x, in_Event.mouseButton.y)))
 				{
 					selectedObject = object;

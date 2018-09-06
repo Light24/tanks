@@ -2,7 +2,7 @@
 #include "game-object.h"
 
 
-WidgetTemplates::WidgetTemplates(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : ContainerMoving<Object>(in_Pos, in_Size)
+WidgetTemplates::WidgetTemplates(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : ContainerMoving(in_Pos, in_Size)
 {
 	m_Engine = in_Engine;
 
