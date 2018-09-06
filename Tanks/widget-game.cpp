@@ -59,9 +59,12 @@ void WidgetGame::Draw(sf::RenderWindow *in_RenderWindow)
 void WidgetGame::Update(const sf::Time &in_Time)
 {
 	Container::Update(in_Time);
+
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
 	{
 		GameObject *gameObject = (GameObject *) GetWidget(i);
+		if (!gameObject->IsAlive())
+			continue;
 
 		GameObject *nearestX = GetNearestIntersectX(gameObject, in_Time);
 		if (nearestX)
@@ -78,9 +81,15 @@ void WidgetGame::Update(const sf::Time &in_Time)
 		gameObject->SetPos(sf::Vector2f(gameObject->GetPos().x + gameObject->GetVelocity().x * in_Time.asMilliseconds(), gameObject->GetPos().y + gameObject->GetVelocity().y * in_Time.asMilliseconds()));
 
 		if (nearestX)
+		{
 			gameObject->OnIntersect(nearestX);
+			nearestX->OnIntersect(gameObject);
+		}
 		if (nearestY)
+		{
 			gameObject->OnIntersect(nearestY);
+			nearestY->OnIntersect(gameObject);
+		}
 	}
 
 	in_ArtificialIntelligence.Update(this, in_Time);
@@ -111,6 +120,9 @@ GameObject *WidgetGame::GetNearestIntersectX(const GameObject *in_Object, const 
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
 	{
 		GameObject *object = (GameObject *) GetWidget(i);
+		if (!object->IsAlive())
+			continue;
+
 		if (intersectX &&
 			fabs(in_Object->GetPos().x - object->GetPos().x) > fabs(in_Object->GetPos().x - intersectX->GetPos().x))
 			continue;
@@ -133,6 +145,9 @@ GameObject *WidgetGame::GetNearestIntersectY(const GameObject *in_Object, const 
 	for (size_t i = 0; i != GetWidgetsCount(); ++i)
 	{
 		GameObject *object = (GameObject *) GetWidget(i);
+		if (!object->IsAlive())
+			continue;
+
 		if (intersectY &&
 			fabs(in_Object->GetPos().x - object->GetPos().x) > fabs(in_Object->GetPos().x - intersectY->GetPos().x))
 			continue;

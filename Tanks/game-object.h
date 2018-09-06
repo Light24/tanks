@@ -6,6 +6,7 @@
 
 #define debug_assert(str) throw(str);
 
+#define PREPARE_DESTROY_LISTENER(in_Pointer, in_Method) [in_Pointer] (GameObject *in_Object) -> void { (in_Pointer->*in_Method)(in_Object); }
 
 struct ID
 {
@@ -100,14 +101,15 @@ public:
 	bool IsAlive() const;
 	bool IsNeedRemove() const;
 
-public:
-	void SetOnObjectDestroy();
-
 private:
 	void calculateDirection();
 	void setDirectionImpl(const sf::Vector2f &in_Direction);
 
 	static GameObject *CreateImpl(const Object_Type in_Type, const boost::property_tree::ptree &in_Json);
+
+public:
+	typedef std::function<void(GameObject *)> ObjectDestroyListener;
+	void SetObjectDestroyListener(ObjectDestroyListener in_ObjectDestroyListener);
 
 private:
 	ID id;
@@ -122,4 +124,6 @@ private:
 	float m_MaxVelocity;
 	int m_Damage;
 	size_t m_Health;
+
+	ObjectDestroyListener m_ObjectDestroyListener;
 };

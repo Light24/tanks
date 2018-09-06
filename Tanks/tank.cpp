@@ -39,5 +39,4 @@ Object_Type Tank::GetType() const
 
 void Tank::OnIntersect(GameObject *in_GameObject)
 {
-
 }

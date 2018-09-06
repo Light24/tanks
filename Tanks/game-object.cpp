@@ -24,7 +24,7 @@ Object_Type GetType(Object_Subtype in_Subtype)
 	return Object_Type_First;
 }
 
-GameObject::GameObject(const boost::property_tree::ptree &in_Json) : m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL)
+GameObject::GameObject(const boost::property_tree::ptree &in_Json) : m_Velocity(sf::Vector2f(0, 0)), m_Group(GROUP_NONE), m_Prototype(NULL), m_ObjectDestroyListener(NULL)
 {
 	id.Generate();
 
@@ -60,6 +60,7 @@ GameObject::GameObject(const GameObject *in_GameObject) : Object(in_GameObject)
 	m_Direction = in_GameObject->m_Direction;
 	m_Damage = in_GameObject->m_Damage;
 	m_Health = in_GameObject->m_Health;
+	m_ObjectDestroyListener = in_GameObject->m_ObjectDestroyListener;
 }
 
 GameObject::~GameObject(void)
@@ -79,6 +80,9 @@ sf::Vector2f GameObject::GetVelocity() const
 
 void GameObject::SetVelocity(const sf::Vector2f &in_Velocity)
 {
+	if (!IsAlive())
+		return;
+
 	m_Velocity = in_Velocity;
 	if (fabs(m_Velocity.x) > m_MaxVelocity)
 		m_Velocity.x = (m_Velocity.x > 0) ? m_MaxVelocity : -m_MaxVelocity;
@@ -169,7 +173,12 @@ void GameObject::SetHealth(int in_Health)
 	m_Health = in_Health;
 
 	if (m_Health == 0)
+	{
 		GetAnimation()->SetAnimationType(Animation_Type::Explosion);
+
+		if (m_ObjectDestroyListener)
+			m_ObjectDestroyListener(const_cast<GameObject *>(this));
+	}
 }
 
 const GameObject *GameObject::Create(const boost::property_tree::ptree &in_Json)
@@ -256,4 +265,9 @@ bool GameObject::IsNeedRemove() const
 		return false;
 
 	return true;
+}
+
+void GameObject::SetObjectDestroyListener(ObjectDestroyListener in_ObjectDestroyListener)
+{
+	m_ObjectDestroyListener = in_ObjectDestroyListener;
 }

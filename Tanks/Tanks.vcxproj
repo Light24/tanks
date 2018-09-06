@@ -146,6 +146,7 @@ copy "$(SolutionDir)..\SFML\bin\sfml-graphics-d-2.dll" "$(OutDir)sfml-graphics-d
     <ClCompile Include="widget-templates.cpp" />
     <ClCompile Include="widget-game-editor.cpp" />
     <ClCompile Include="widget-illuminated-object.cpp" />
+    <ClCompile Include="window-game-result.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="window-game.cpp" />
     <ClCompile Include="window-editor.cpp" />
@@ -172,6 +173,7 @@ copy "$(SolutionDir)..\SFML\bin\sfml-graphics-d-2.dll" "$(OutDir)sfml-graphics-d
     <ClInclude Include="widget-templates.h" />
     <ClInclude Include="widget.h" />
     <ClInclude Include="widget-illuminated-object.h" />
+    <ClInclude Include="window-game-result.h" />
     <ClInclude Include="window-game.h" />
     <ClInclude Include="window.h" />
     <ClInclude Include="window-editor.h" />

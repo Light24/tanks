@@ -69,9 +69,6 @@
     <ClCompile Include="engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="window.cpp">
       <Filter>GUI\Source Files</Filter>
     </ClCompile>
@@ -135,15 +132,18 @@
     <ClCompile Include="artificial-intelligence.cpp">
       <Filter>GameWindow\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="window-game-result.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="window.h">
@@ -207,6 +207,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="artificial-intelligence.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="window-game-result.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
       <Filter>GameWindow\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
