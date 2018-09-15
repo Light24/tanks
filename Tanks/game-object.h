@@ -111,6 +111,9 @@ public:
 	typedef std::function<void(GameObject *)> ObjectDestroyListener;
 	void SetObjectDestroyListener(ObjectDestroyListener in_ObjectDestroyListener);
 
+	typedef std::function<void(const size_t in_Health)> ObjectHealthListener;
+	void SetPlayerHealthListener(ObjectHealthListener in_ObjectHealthListener) { m_ObjectHealthListener = in_ObjectHealthListener; m_ObjectHealthListener(m_Health);  }
+
 private:
 	ID id;
 	Object_Subtype m_Subtype;
@@ -126,4 +129,5 @@ private:
 	size_t m_Health;
 
 	ObjectDestroyListener m_ObjectDestroyListener;
+	ObjectHealthListener m_ObjectHealthListener;
 };

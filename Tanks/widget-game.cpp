@@ -1,7 +1,7 @@
 #include "widget-game.h"
 #include "config.h"
 
-WidgetGame::WidgetGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Container(in_Pos, in_Size)
+WidgetGame::WidgetGame(Engine *in_Engine, const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Container(in_Pos, in_Size), m_EnemyCountListener(NULL), m_EnemyCount(0)
 {
 	const ConfigManager *configManager = in_Engine->GetConfigManager();
 
@@ -109,6 +109,30 @@ void WidgetGame::HandleEvent(const sf::Event &in_Event)
 {
 	Container::HandleEvent(in_Event);
 	m_Player->HandleEvent(in_Event);
+}
+
+void WidgetGame::AddWidget(Object *in_Widget, bool in_Top)
+{
+	if (dynamic_cast<GameObject *>(in_Widget)->GetType() == Object_Type_Tank)
+	{
+		++m_EnemyCount;
+		if (m_EnemyCountListener)
+			m_EnemyCountListener(m_EnemyCount);
+	}
+
+	Container::AddWidget(in_Widget, in_Top);
+}
+
+bool WidgetGame::RemoveWidget(Object *in_Widget, bool in_Deleting)
+{
+	if (dynamic_cast<GameObject *>(in_Widget)->GetType() == Object_Type_Tank)
+	{
+		--m_EnemyCount;
+		if (m_EnemyCountListener)
+			m_EnemyCountListener(m_EnemyCount);
+	}
+
+	return Container::RemoveWidget(in_Widget, in_Deleting);;
 }
 
 GameObject *WidgetGame::GetNearestIntersectX(const GameObject *in_Object, const sf::Time in_Time) const

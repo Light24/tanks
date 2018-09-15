@@ -1,7 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tanks", "Tanks\Tanks.vcxproj", "{AD6D2861-4497-4F4A-A683-4304D61244AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui-subsystem", "..\gui-subsystem\gui-subsystem\gui-subsystem.vcxproj", "{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui-editor", "..\gui-editor\gui-editor\gui-editor.vcxproj", "{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +25,27 @@ Global
 		{AD6D2861-4497-4F4A-A683-4304D61244AB}.Release|Win32.Build.0 = Release|Win32
 		{AD6D2861-4497-4F4A-A683-4304D61244AB}.Release|x64.ActiveCfg = Release|x64
 		{AD6D2861-4497-4F4A-A683-4304D61244AB}.Release|x64.Build.0 = Release|x64
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Debug|Win32.Build.0 = Debug|Win32
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Debug|x64.ActiveCfg = Debug|x64
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Debug|x64.Build.0 = Debug|x64
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Release|Win32.ActiveCfg = Release|Win32
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Release|Win32.Build.0 = Release|Win32
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Release|x64.ActiveCfg = Release|x64
+		{FE98CCA7-10B0-4B66-B16A-7E4927E04EB0}.Release|x64.Build.0 = Release|x64
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Debug|Win32.Build.0 = Debug|Win32
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Debug|x64.ActiveCfg = Debug|x64
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Debug|x64.Build.0 = Debug|x64
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Release|Win32.ActiveCfg = Release|Win32
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Release|Win32.Build.0 = Release|Win32
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Release|x64.ActiveCfg = Release|x64
+		{1A33D608-AF56-4D0D-91F0-6EE09F1E271E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C51A6D5-D774-40EF-B58F-F129272C99E9}
 	EndGlobalSection
 EndGlobal

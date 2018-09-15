@@ -10,7 +10,7 @@ public:
 	~WidgetTemplates();
 
 public:
-	virtual void AddWidget(Object *in_Widget) override;
+	virtual void AddWidget(Object *in_Widget, bool in_Top = false) override;
 
 private:
 	Object *onMoveBegin(Object *in_Object, const sf::Event &in_Event);

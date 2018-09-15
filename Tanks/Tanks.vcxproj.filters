@@ -43,14 +43,14 @@
     <Filter Include="EditorWindow">
       <UniqueIdentifier>{c2682b8f-3a5d-457f-92f7-cbeb8399b159}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MenuWindow">
-      <UniqueIdentifier>{67eb22c3-ed20-4b1f-9334-6a0aa60cd9ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EditorWindow\Header Files">
       <UniqueIdentifier>{00e4dae2-a267-4942-ac56-21d33fe7067c}</UniqueIdentifier>
     </Filter>
     <Filter Include="EditorWindow\Source Files">
       <UniqueIdentifier>{b2f466a4-f831-413d-aad5-d476d11b9664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MenuWindow">
+      <UniqueIdentifier>{67eb22c3-ed20-4b1f-9334-6a0aa60cd9ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="MenuWindow\Header Files">
       <UniqueIdentifier>{9c6c1f49-fbeb-4f56-9f07-3e957813a83d}</UniqueIdentifier>
@@ -132,11 +132,20 @@
     <ClCompile Include="artificial-intelligence.cpp">
       <Filter>GameWindow\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="window-game-result.cpp">
-      <Filter>GameWindow\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget-game-statistic.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialog-game-result.cpp">
+      <Filter>GameWindow\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>GUI\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget-text.cpp">
+      <Filter>GUI\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -209,11 +218,20 @@
     <ClInclude Include="artificial-intelligence.h">
       <Filter>GameWindow\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="window-game-result.h">
-      <Filter>GameWindow\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-game-statistic.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dialog-game-result.h">
+      <Filter>GameWindow\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>GUI\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="widget-text.h">
+      <Filter>GUI\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -172,6 +172,9 @@ void GameObject::SetHealth(int in_Health)
 
 	m_Health = in_Health;
 
+	if (m_ObjectHealthListener)
+		m_ObjectHealthListener(m_Health);
+
 	if (m_Health == 0)
 	{
 		GetAnimation()->SetAnimationType(Animation_Type::Explosion);

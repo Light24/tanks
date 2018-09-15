@@ -19,4 +19,8 @@ public:
 	virtual void OnIntersect(GameObject *in_GameObject) override;
 
 private:
+	sf::Clock m_Clock;
+
+	double m_FireRate;
+	double m_FireCharge;
 };

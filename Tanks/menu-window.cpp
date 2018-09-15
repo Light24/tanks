@@ -4,8 +4,6 @@
 
 #include <functional>
 
-#define PREPARE_CALLBACK(in_Pointer, in_Method) [in_Pointer] (Button *in_Object) -> void { (in_Pointer->*in_Method)(in_Object); }
-
 #define BUTTON_SIZE sf::Vector2f(120, 40)
 #define BUTTON_OFFSET_Y 10
 

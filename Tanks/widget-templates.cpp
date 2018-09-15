@@ -38,7 +38,7 @@ Object *WidgetTemplates::onMoveBegin(Object *in_Object, const sf::Event &in_Even
 #define OBJECTS_OFFSET_X 10
 #define OBJECTS_OFFSET_Y 10
 
-void WidgetTemplates::AddWidget(Object *in_Widget)
+void WidgetTemplates::AddWidget(Object *in_Widget, bool in_Top)
 {
 	sf::Vector2f pos = in_Widget->GetPos();
 	if (GetWidgetsCount())
@@ -57,5 +57,5 @@ void WidgetTemplates::AddWidget(Object *in_Widget)
 	}
 	in_Widget->SetPos(pos);
 
-	ContainerMoving::AddWidget(in_Widget);
+	ContainerMoving::AddWidget(in_Widget, in_Top);
 }

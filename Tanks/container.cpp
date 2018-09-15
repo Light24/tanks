@@ -21,14 +21,24 @@ void Container::SetPos(const sf::Vector2f &in_Pos)
 		m_Widgets[i]->CalculateSpritePos();
 }
 
-void Container::AddWidget(Object *in_Widget)
+void Container::AddWidget(Object *in_Widget, bool in_Top)
 {
 	Object **pWidgets = m_Widgets;
 	
 	m_Widgets = new Object*[++m_WidgetsCount];
-	for (size_t i = 0; i != (m_WidgetsCount - 1); ++i)
-		m_Widgets[i] = pWidgets[i];
-	m_Widgets[m_WidgetsCount - 1] = in_Widget;
+	if (in_Top)
+	{
+		for (size_t i = 0; i != (m_WidgetsCount - 1); ++i)
+			m_Widgets[i + 1] = pWidgets[i];
+		m_Widgets[0] = in_Widget;
+	}
+	else
+	{
+		for (size_t i = 0; i != (m_WidgetsCount - 1); ++i)
+			m_Widgets[i] = pWidgets[i];
+		m_Widgets[m_WidgetsCount - 1] = in_Widget;
+
+	}
 
 	in_Widget->SetParent(this);
 

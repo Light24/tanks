@@ -22,7 +22,7 @@ void ArtificialIntelligence::Update(Container *in_Container, const sf::Time &in_
 		if (gameObject->GetSubtype() == Object_Subtype_Player)
 			continue;
 
-		if (rand() % 1000 == 0)
+		if (rand() % 50 == 0)
 		{
 			dynamic_cast<Tank *>(gameObject)->Fire();
 		}

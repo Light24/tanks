@@ -1,6 +1,5 @@
 #include "button.h"
 
-
 sf::Font font;
 Button::Button(const sf::Vector2f &in_Pos, const sf::Vector2f &in_Size) : Widget(in_Pos, in_Size), m_ClickedListener(NULL)
 {
@@ -70,5 +69,5 @@ void Button::SetPos(const sf::Vector2f &in_Pos)
 
 void Button::calculatePosText()
 {
-	m_Text.setPosition(GetPos().x + GetSize().x / 2, GetPos().y + GetSize().y / 2);
+	m_Text.setPosition(GetAbsolutePos().x + GetSize().x / 2, GetAbsolutePos().y + GetSize().y / 2);
 }

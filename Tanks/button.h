@@ -2,6 +2,8 @@
 #include "widget.h"
 #include <functional>
 
+#define PREPARE_CALLBACK(in_Pointer, in_Method) [in_Pointer] (Button *in_Object) -> void { (in_Pointer->*in_Method)(in_Object); }
+
 class Button : public Widget
 {
 public:

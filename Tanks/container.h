@@ -12,8 +12,8 @@ public:
 public:
 	virtual void SetPos(const sf::Vector2f &in_Pos) override;
 
-	virtual void AddWidget(Object *in_Widget);
-	bool RemoveWidget(Object *in_Widget, bool in_Deleting = true);
+	virtual void AddWidget(Object *in_Widget, bool in_Top = false);
+	virtual bool RemoveWidget(Object *in_Widget, bool in_Deleting = true);
 	Object *GetWidget(const size_t in_Num) const;
 	size_t GetWidgetsCount() const;
 
